@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/nav_notes"
+        android:icon="@drawable/notes_list"
+        android:title="Notes" />
+    <item
+        android:id="@+id/nav_todo"
+        android:icon="@drawable/todo_list"
+        android:title="ToDo" />
+    <item
+        android:id="@+id/nav_birthdays"
+        android:icon="@drawable/birthday"
+        android:title="Birthdays" />
+    <item
+        android:id="@+id/nav_achievements"
+        android:icon="@drawable/achievements_icon"
+        android:title="Achievements" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/settings"
+        android:title="Settings" />
+
+    <item
+        android:id="@+id/nav_exit"
+        android:icon="@drawable/logout"
+        android:title="Exit" />
+
+</menu>
