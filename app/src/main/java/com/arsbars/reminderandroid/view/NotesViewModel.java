@@ -97,7 +97,7 @@ public class NotesViewModel extends ViewModel {
         return new Note(note);
     }
 
-    public void removeFav(long id) {
+    public void removeNote(long id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(
                 DbSettings.DBEntry.NOTES_TABLE,

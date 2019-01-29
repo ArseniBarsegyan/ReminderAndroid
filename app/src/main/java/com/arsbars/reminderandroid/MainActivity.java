@@ -1,20 +1,35 @@
 package com.arsbars.reminderandroid;
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.arsbars.reminderandroid.data.Note;
+import com.arsbars.reminderandroid.view.NotesViewModel;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private NotesAdapter notesAdapter;
+    private NotesViewModel notesViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +42,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
             }
         });
 
@@ -40,6 +54,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ListView notesListView = findViewById(R.id.listView);
+        notesViewModel = ViewModelProviders.of(this).get(NotesViewModel.class);
+
+        List<Note> favourites = notesViewModel.getNotes();
+        notesAdapter = new NotesAdapter(this, R.layout.list_item_row, favourites);
+        notesListView.setAdapter(notesAdapter);
     }
 
     @Override
@@ -97,5 +118,41 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public class NotesAdapter extends ArrayAdapter<Note> {
+        private class ViewHolder {
+            TextView description;
+            TextView editDate;
+        }
+
+        public NotesAdapter(Context context, int layoutResourceId, List<Note> todos) {
+            super(context, layoutResourceId, todos);
+        }
+
+        @Override
+        @NonNull
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Note note = getItem(position);
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                viewHolder = new ViewHolder();
+                LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = vi.inflate(R.layout.list_item_row, parent, false);
+                viewHolder.description = convertView.findViewById(R.id.noteDescription);
+                viewHolder.editDate = convertView.findViewById(R.id.noteEditDate);
+                convertView.setTag(R.id.VH, viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag(R.id.VH);
+            }
+
+            if (note != null) {
+                viewHolder.description.setText(note.getDescription());
+                viewHolder.editDate.setText((note.getEditDate()).toString());
+            }
+            convertView.setTag(R.id.POS, position);
+            return convertView;
+        }
+
     }
 }
