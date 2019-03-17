@@ -29,14 +29,14 @@ public class NotesViewModel extends ViewModel {
         this.dbHelper = dbHelper;
     }
 
-    public List<Note> getNotes() {
+    public List<NoteViewModel> getNotes() {
         if (notes == null) {
             notes = new ArrayList<>();
             loadNotes();
         }
-        ArrayList<Note> clonedNotes = new ArrayList<>(notes.size());
+        ArrayList<NoteViewModel> clonedNotes = new ArrayList<>(notes.size());
         for (int i = 0; i < notes.size(); i++) {
-            notes.add(new Note(notes.get(i)));
+            clonedNotes.add(new NoteViewModel(notes.get(i)));
         }
         return clonedNotes;
     }

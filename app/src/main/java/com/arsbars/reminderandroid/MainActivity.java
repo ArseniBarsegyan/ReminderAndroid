@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.arsbars.reminderandroid.data.Note;
 import com.arsbars.reminderandroid.data.NotesDbHelper;
 import com.arsbars.reminderandroid.view.NotesViewModel;
+import com.arsbars.reminderandroid.view.adapters.RecycleAdapter;
 import com.arsbars.reminderandroid.view.factory.NotesViewModelFactory;
 
 import java.util.List;
@@ -30,7 +32,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private NotesAdapter notesAdapter;
     private NotesViewModel notesViewModel;
 
     @Override
@@ -56,16 +57,15 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ListView notesListView = findViewById(R.id.listView);
-
         notesViewModel = ViewModelProviders
                 .of(this, new NotesViewModelFactory(new NotesDbHelper(getApplicationContext())))
                 .get(NotesViewModel.class);
         notesViewModel = new NotesViewModel(new NotesDbHelper(getApplicationContext()));
 
-        List<Note> favourites = notesViewModel.getNotes();
-        notesAdapter = new NotesAdapter(this, R.layout.list_item_row, favourites);
-        notesListView.setAdapter(notesAdapter);
+        RecyclerView notesRecycleView = findViewById(R.id.notesRecycleView);
+        RecycleAdapter recycleAdapter = new RecycleAdapter(this, notesViewModel.getNotes());
+
+        notesRecycleView.setAdapter(recycleAdapter);
     }
 
     @Override
