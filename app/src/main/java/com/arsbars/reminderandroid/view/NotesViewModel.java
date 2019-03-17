@@ -1,6 +1,8 @@
 package com.arsbars.reminderandroid.view;
 
+import android.app.Application;
 import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,7 +47,7 @@ public class NotesViewModel extends ViewModel {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query(DbSettings.DBEntry.NOTES_TABLE,
                 new String[]{
-                        DbSettings.DBEntry._ID,
+                        DbSettings.DBEntry.COLUMN_ID,
                         DbSettings.DBEntry.DESCRIPTION,
                         DbSettings.DBEntry.CREATE_DATE,
                         DbSettings.DBEntry.EDIT_DATE
@@ -53,7 +55,7 @@ public class NotesViewModel extends ViewModel {
                 null, null, null, null, null);
         while (cursor.moveToNext()) {
             try {
-                int idIndex = cursor.getColumnIndex(DbSettings.DBEntry._ID);
+                int idIndex = cursor.getColumnIndex(DbSettings.DBEntry.COLUMN_ID);
                 int descriptionIndex = cursor.getColumnIndex(DbSettings.DBEntry.DESCRIPTION);
                 int createdDateIndex = cursor.getColumnIndex(DbSettings.DBEntry.CREATE_DATE);
                 int editDateIndex = cursor.getColumnIndex(DbSettings.DBEntry.EDIT_DATE);
@@ -101,7 +103,7 @@ public class NotesViewModel extends ViewModel {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(
                 DbSettings.DBEntry.NOTES_TABLE,
-                DbSettings.DBEntry._ID + " = ?",
+                DbSettings.DBEntry.COLUMN_ID + " = ?",
                 new String[]{Long.toString(id)}
         );
         db.close();

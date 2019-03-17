@@ -7,6 +7,7 @@ public class DbSettings {
     public static final int DB_VERSION = 1;
 
     public class DBEntry implements BaseColumns {
+        public static final String COLUMN_ID = "_id";
         public static final String NOTES_TABLE = "notes";
         public static final String DESCRIPTION = "description";
         public static final String CREATE_DATE = "create_date";

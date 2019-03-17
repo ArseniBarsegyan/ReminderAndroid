@@ -12,7 +12,7 @@ public class NotesDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + DbSettings.DBEntry.NOTES_TABLE +" (" +
-                DbSettings.DBEntry._ID + "Id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DbSettings.DBEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DbSettings.DBEntry.DESCRIPTION + " TEXT NOT NULL, " +
                 DbSettings.DBEntry.CREATE_DATE + " DATETIME NOT NULL, " +
                 DbSettings.DBEntry.EDIT_DATE + " DATETIME NOT NULL);";

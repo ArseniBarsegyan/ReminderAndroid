@@ -21,7 +21,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.arsbars.reminderandroid.data.Note;
+import com.arsbars.reminderandroid.data.NotesDbHelper;
 import com.arsbars.reminderandroid.view.NotesViewModel;
+import com.arsbars.reminderandroid.view.factory.NotesViewModelFactory;
 
 import java.util.List;
 
@@ -42,7 +44,6 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
             }
         });
 
@@ -56,7 +57,11 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         ListView notesListView = findViewById(R.id.listView);
-        notesViewModel = ViewModelProviders.of(this).get(NotesViewModel.class);
+
+        notesViewModel = ViewModelProviders
+                .of(this, new NotesViewModelFactory(new NotesDbHelper(getApplicationContext())))
+                .get(NotesViewModel.class);
+        notesViewModel = new NotesViewModel(new NotesDbHelper(getApplicationContext()));
 
         List<Note> favourites = notesViewModel.getNotes();
         notesAdapter = new NotesAdapter(this, R.layout.list_item_row, favourites);
