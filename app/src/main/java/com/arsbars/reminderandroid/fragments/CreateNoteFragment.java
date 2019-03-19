@@ -4,16 +4,18 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arsbars.reminderandroid.view.CreateNoteViewModel;
 import com.arsbars.reminderandroid.R;
+import com.arsbars.reminderandroid.data.NotesDbHelper;
+import com.arsbars.reminderandroid.view.CreateNoteViewModel;
+import com.arsbars.reminderandroid.view.factory.CreateNoteViewModelFactory;
 
 public class CreateNoteFragment extends Fragment {
-
     private CreateNoteViewModel mViewModel;
 
     public static CreateNoteFragment newInstance() {
@@ -29,9 +31,16 @@ public class CreateNoteFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(CreateNoteViewModel.class);
+        mViewModel = ViewModelProviders
+                .of(this, new CreateNoteViewModelFactory(new NotesDbHelper(getContext())))
+                .get(CreateNoteViewModel.class);
         // TODO: Use the ViewModel
 
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
     }
-
 }

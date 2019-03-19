@@ -6,4 +6,8 @@ import com.arsbars.reminderandroid.data.NotesDbHelper;
 
 public class CreateNoteViewModel extends ViewModel {
     private NotesDbHelper dbHelper;
+
+    public CreateNoteViewModel(NotesDbHelper dbHelper) {
+        this.dbHelper = dbHelper;
+    }
 }
