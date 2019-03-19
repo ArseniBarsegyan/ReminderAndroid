@@ -48,17 +48,7 @@ public class NotesFragment extends Fragment {
         notesRecycleView.setAdapter(recycleAdapter);
 
         activity = (MainActivity)getActivity();
-        Toolbar toolbar = (Toolbar)activity.findViewById(R.id.toolbar);
-        toolbar.setTitle("Notes");
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.setNavigationDefaultHandler();
-            }
-        });
-
-        activity.showHamburgerIcon();
+        activity.navigateToRootFragment("Notes");
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

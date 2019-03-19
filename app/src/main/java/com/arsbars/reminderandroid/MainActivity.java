@@ -14,10 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.arsbars.reminderandroid.fragments.NotesFragment;
-import com.arsbars.reminderandroid.view.HideShowIconInterface;
+import com.arsbars.reminderandroid.view.FragmentNavigationService;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HideShowIconInterface {
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentNavigationService {
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private ActionBarDrawerToggle toggle;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
         setNavigationDefaultHandler();
     }
 
-    public void setNavigationDefaultHandler() {
+    private void setNavigationDefaultHandler() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -97,14 +97,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void showHamburgerIcon() {
+    public void navigateToRootFragment(String title) {
+        toolbar.setTitle(title);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         toggle.setDrawerIndicatorEnabled(true);
+
         setNavigationDefaultHandler();
     }
 
     @Override
-    public void showBackIcon() {
+    public void pushFragment(String title) {
+        toolbar.setTitle(title);
+
         toggle.setDrawerIndicatorEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

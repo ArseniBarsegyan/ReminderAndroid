@@ -19,7 +19,6 @@ import com.arsbars.reminderandroid.view.factory.CreateNoteViewModelFactory;
 
 public class CreateNoteFragment extends Fragment {
     private CreateNoteViewModel createNoteViewModel;
-    private MainActivity activity;
 
     public static CreateNoteFragment newInstance() {
         return new CreateNoteFragment();
@@ -39,9 +38,9 @@ public class CreateNoteFragment extends Fragment {
                 .get(CreateNoteViewModel.class);
         // TODO: Use the ViewModel
 
-        activity = (MainActivity)getActivity();
-        Toolbar toolbar = (Toolbar)activity.findViewById(R.id.toolbar);
-        toolbar.setTitle("Create note");
-        activity.showBackIcon();
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity != null) {
+            activity.pushFragment("Create note");
+        }
     }
 }
