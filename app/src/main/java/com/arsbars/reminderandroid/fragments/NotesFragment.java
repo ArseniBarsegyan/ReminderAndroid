@@ -48,10 +48,12 @@ public class NotesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                CreateNoteFragment createNoteFragment = CreateNoteFragment.newInstance();
-                fragmentTransaction.replace(R.id.root_layout, createNoteFragment);
-                fragmentTransaction.commit();
+                if (fragmentManager != null) {
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    CreateNoteFragment createNoteFragment = CreateNoteFragment.newInstance();
+                    fragmentTransaction.replace(R.id.root_layout, createNoteFragment);
+                    fragmentTransaction.commit();
+                }
             }
         });
     }
