@@ -8,11 +8,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
 import com.arsbars.reminderandroid.data.NotesDbHelper;
 import com.arsbars.reminderandroid.view.NotesViewModel;
@@ -21,6 +24,7 @@ import com.arsbars.reminderandroid.view.factory.NotesViewModelFactory;
 
 public class NotesFragment extends Fragment {
     private NotesViewModel notesViewModel;
+    private MainActivity activity;
 
     public static NotesFragment newInstance() {
         return new NotesFragment();
@@ -43,6 +47,19 @@ public class NotesFragment extends Fragment {
         RecycleAdapter recycleAdapter = new RecycleAdapter(getContext(), notesViewModel.getNotes());
         notesRecycleView.setAdapter(recycleAdapter);
 
+        activity = (MainActivity)getActivity();
+        Toolbar toolbar = (Toolbar)activity.findViewById(R.id.toolbar);
+        toolbar.setTitle("Notes");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.setNavigationDefaultHandler();
+            }
+        });
+
+        activity.showHamburgerIcon();
+
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +69,7 @@ public class NotesFragment extends Fragment {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     CreateNoteFragment createNoteFragment = CreateNoteFragment.newInstance();
                     fragmentTransaction.replace(R.id.root_layout, createNoteFragment);
+                    fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }
             }
