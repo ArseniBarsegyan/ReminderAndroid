@@ -6,28 +6,24 @@
     <item
         android:id="@+id/nav_notes"
         android:icon="@drawable/notes_list"
-        android:title="Notes" />
+        android:title="@string/notes" />
     <item
-        android:id="@+id/nav_todo"
+        android:id="@+id/nav_reminders"
         android:icon="@drawable/todo_list"
-        android:title="ToDo" />
-    <item
-        android:id="@+id/nav_birthdays"
-        android:icon="@drawable/birthday"
-        android:title="Birthdays" />
+        android:title="@string/reminders" />
     <item
         android:id="@+id/nav_achievements"
         android:icon="@drawable/achievements_icon"
-        android:title="Achievements" />
+        android:title="@string/achievements" />
 
     <item
         android:id="@+id/nav_settings"
         android:icon="@drawable/settings"
-        android:title="Settings" />
+        android:title="@string/settings" />
 
     <item
         android:id="@+id/nav_exit"
         android:icon="@drawable/logout"
-        android:title="Exit" />
+        android:title="@string/logout" />
 
 </menu>
