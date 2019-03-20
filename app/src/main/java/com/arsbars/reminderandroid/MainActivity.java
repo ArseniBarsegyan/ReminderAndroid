@@ -1,7 +1,9 @@
 package com.arsbars.reminderandroid;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.arsbars.reminderandroid.fragments.NotesFragment;
 import com.arsbars.reminderandroid.view.FragmentNavigationService;
@@ -30,20 +33,58 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        InitializeRootFragment();
-
-        setNavigationDefaultHandler();
+        navigateToRoot("Notes", NotesFragment.newInstance());
     }
 
-    private void setNavigationDefaultHandler() {
+    @Override
+    public void navigateToRoot(String title, Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        ConstraintLayout rootLayout = (ConstraintLayout)findViewById(R.id.root_layout);
+        if (rootLayout.getChildCount() == 0) {
+            fragmentTransaction.add(R.id.root_layout, fragment);
+        } else {
+            fragmentTransaction.replace(R.id.root_layout, fragment);
+        }
+        fragmentTransaction.commit();
+
+        toolbar.setTitle(title);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        toggle.setDrawerIndicatorEnabled(true);
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void push(String title, Fragment fragment) {
+        toolbar.setTitle(title);
+
+        toggle.setDrawerIndicatorEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager != null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.root_layout, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
     }
 
     @Override
@@ -66,11 +107,10 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_notes) {
-            // Handle the camera action
+            Toast.makeText(this,"Notes selected", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_todo) {
 
         } else if (id == R.id.nav_birthdays) {
@@ -86,38 +126,5 @@ public class MainActivity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void InitializeRootFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        NotesFragment notesFragment = NotesFragment.newInstance();
-        fragmentTransaction.add(R.id.root_layout, notesFragment);
-        fragmentTransaction.commit();
-    }
-
-    @Override
-    public void navigateToRootFragment(String title) {
-        toolbar.setTitle(title);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        toggle.setDrawerIndicatorEnabled(true);
-
-        setNavigationDefaultHandler();
-    }
-
-    @Override
-    public void pushFragment(String title) {
-        toolbar.setTitle(title);
-
-        toggle.setDrawerIndicatorEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
 }

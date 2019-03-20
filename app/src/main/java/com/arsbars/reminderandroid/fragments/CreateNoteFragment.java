@@ -4,14 +4,11 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
 import com.arsbars.reminderandroid.data.NotesDbHelper;
 import com.arsbars.reminderandroid.view.CreateNoteViewModel;
@@ -36,11 +33,5 @@ public class CreateNoteFragment extends Fragment {
         createNoteViewModel = ViewModelProviders
                 .of(this, new CreateNoteViewModelFactory(new NotesDbHelper(getContext())))
                 .get(CreateNoteViewModel.class);
-        // TODO: Use the ViewModel
-
-        MainActivity activity = (MainActivity) getActivity();
-        if (activity != null) {
-            activity.pushFragment("Create note");
-        }
     }
 }

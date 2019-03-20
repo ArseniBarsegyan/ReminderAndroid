@@ -6,11 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,20 +44,13 @@ public class NotesFragment extends Fragment {
         notesRecycleView.setAdapter(recycleAdapter);
 
         activity = (MainActivity)getActivity();
-        activity.navigateToRootFragment("Notes");
+        activity.navigateToRoot("Notes", this);
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fragmentManager = getFragmentManager();
-                if (fragmentManager != null) {
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    CreateNoteFragment createNoteFragment = CreateNoteFragment.newInstance();
-                    fragmentTransaction.replace(R.id.root_layout, createNoteFragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                }
+                activity.push("Create note", CreateNoteFragment.newInstance());
             }
         });
     }
