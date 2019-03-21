@@ -22,7 +22,7 @@ public class CreateNoteViewModel extends ViewModel {
     }
 
     public Note createNote(String description) {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US);
         Date today = Calendar.getInstance().getTime();
         String createDate = df.format(today);
 

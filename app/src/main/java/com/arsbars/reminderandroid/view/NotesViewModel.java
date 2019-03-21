@@ -55,9 +55,9 @@ public class NotesViewModel extends ViewModel {
                 int createdDateIndex = cursor.getColumnIndex(DbSettings.DBEntry.CREATE_DATE);
                 int editDateIndex = cursor.getColumnIndex(DbSettings.DBEntry.EDIT_DATE);
 
-                Date createdDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US)
+                Date createdDate = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US)
                         .parse(cursor.getString(createdDateIndex));
-                Date editDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US)
+                Date editDate = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US)
                         .parse(cursor.getString(createdDateIndex));
 
                 Note note = new Note(cursor.getLong(idIndex), cursor.getString(descriptionIndex),
