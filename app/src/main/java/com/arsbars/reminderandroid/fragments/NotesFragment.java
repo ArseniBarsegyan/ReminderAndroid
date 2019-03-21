@@ -46,7 +46,7 @@ public class NotesFragment extends Fragment {
         activity = (MainActivity)getActivity();
         activity.navigateToRoot("Notes", this);
 
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.push_create_note_view_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
