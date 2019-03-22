@@ -5,15 +5,19 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.SystemClock;
 
 import com.arsbars.reminderandroid.R;
+import com.arsbars.reminderandroid.fragments.dialogs.DeleteNoteDialogFragment;
 import com.arsbars.reminderandroid.view.NoteViewModel;
 
 import java.text.DateFormat;
@@ -27,12 +31,15 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
-        final TextView descriptionView, noteEditDateView;
+        private TextView descriptionView, noteEditDateView;
+        private ImageButton deleteNoteButton;
 
         ViewHolder(View view){
             super(view);
             descriptionView = (TextView)view.findViewById(R.id.noteDescription);
             noteEditDateView = (TextView)view.findViewById(R.id.noteEditDate);
+            deleteNoteButton = (ImageButton)view.findViewById(R.id.delete_note_button);
+
             this.view = view;
         }
     }
@@ -51,7 +58,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecycleAdapter.ViewHolder holder, int position) {
-        final NoteViewModel noteViewModel = noteViewModels.get(position);
+        NoteViewModel noteViewModel = noteViewModels.get(position);
         holder.descriptionView.setText(noteViewModel.getDescription());
 
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US);
@@ -60,10 +67,16 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
         holder.view.setOnClickListener(v -> {
             Toast.makeText(v.getContext(), "Tap handled " + noteViewModel.getId(), Toast.LENGTH_SHORT).show();
-                new BackgroundTask().execute(holder.view);
+                new ChangeViewBackgroundTask().execute(holder.view);
         });
         holder.view.setOnLongClickListener(v -> {
-            Toast.makeText(v.getContext(), "Long tap handled " + noteViewModel.getId(), Toast.LENGTH_SHORT).show();
+            holder.deleteNoteButton.setVisibility(View.VISIBLE);
+            holder.deleteNoteButton.setOnClickListener(x -> {
+                DeleteNoteDialogFragment deleteNoteDialogFragment = new DeleteNoteDialogFragment();
+                FragmentManager manager = ((AppCompatActivity)v.getContext()).getSupportFragmentManager();
+                deleteNoteDialogFragment.show(manager, "delete_note_popup");
+                Toast.makeText(v.getContext(), "Delete note handled " + noteViewModel.getId(), Toast.LENGTH_SHORT).show();
+            });
             return true;
         });
     }
@@ -73,7 +86,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         return noteViewModels.size();
     }
 
-    static class BackgroundTask extends AsyncTask<View, Integer, Void> {
+    static class ChangeViewBackgroundTask extends AsyncTask<View, Integer, Void> {
         @Override
         protected Void doInBackground(View... views) {
             Handler mainHandler = new Handler(Looper.getMainLooper());
