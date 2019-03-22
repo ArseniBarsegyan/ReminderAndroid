@@ -6,11 +6,14 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="notes_title">Notes</string>
     <string name="reminders">Reminders</string>
     <string name="notes">Notes</string>
     <string name="achievements">Achievements</string>
     <string name="settings">Settings</string>
     <string name="logout">Logout</string>
     <string name="note_description_placeholder">Your note text…</string>
+    <string name="create_note_title">Create note</string>
+    <string name="note_create_error">Can\'t create empty note</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
 </resources>

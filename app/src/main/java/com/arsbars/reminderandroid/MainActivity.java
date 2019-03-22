@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        navigateToRoot("Notes", NotesFragment.newInstance());
+        navigateToRoot(getString(R.string.notes), NotesFragment.newInstance());
     }
 
     @Override
@@ -71,12 +71,7 @@ public class MainActivity extends AppCompatActivity
         toggle.setDrawerIndicatorEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager != null) {
@@ -110,15 +105,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_notes) {
-            Toast.makeText(this,"Notes", Toast.LENGTH_SHORT).show();
+            navigateToRoot(getString(R.string.notes), NotesFragment.newInstance());
         } else if (id == R.id.nav_reminders) {
-            Toast.makeText(this,"Reminders", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.reminders), Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_achievements) {
-            Toast.makeText(this,"achievements", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.achievements), Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_settings) {
-            Toast.makeText(this,"settings", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.settings), Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_exit) {
-            Toast.makeText(this,"logout", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.logout), Toast.LENGTH_SHORT).show();
         }
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

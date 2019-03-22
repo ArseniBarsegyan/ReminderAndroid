@@ -44,14 +44,9 @@ public class NotesFragment extends Fragment {
         notesRecycleView.setAdapter(recycleAdapter);
 
         activity = (MainActivity)getActivity();
-        activity.navigateToRoot("Notes", this);
+        activity.navigateToRoot(getString(R.string.notes), this);
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.push_create_note_view_button);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity.push("Create note", CreateNoteFragment.newInstance());
-            }
-        });
+        fab.setOnClickListener(view -> activity.push(getString(R.string.create_note_title), CreateNoteFragment.newInstance()));
     }
 }

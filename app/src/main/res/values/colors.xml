@@ -3,6 +3,10 @@
     <color name="colorPrimary">#323232</color>
     <color name="colorPrimaryDark">#323232</color>
     <color name="colorAccent">#448AFF</color>
-    <color name="nav_text_color">#323232</color>
+    <color name="dark_text_color">#323232</color>
+    <color name="light_text_color">#fafafa</color>
     <color name="nav_header_text_color">#fafafa</color>
+    <color name="list_selected_color">#CCCCCC</color>
+    <color name="list_unselected_color">#fafafa</color>
+    <color name="button_background">#e1e1e1</color>
 </resources>

@@ -1,12 +1,17 @@
 package com.arsbars.reminderandroid.view.adapters;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.SystemClock;
 
 import com.arsbars.reminderandroid.R;
 import com.arsbars.reminderandroid.view.NoteViewModel;
@@ -24,7 +29,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         public View view;
         final TextView descriptionView, noteEditDateView;
 
-        public ViewHolder(View view){
+        ViewHolder(View view){
             super(view);
             descriptionView = (TextView)view.findViewById(R.id.noteDescription);
             noteEditDateView = (TextView)view.findViewById(R.id.noteEditDate);
@@ -37,14 +42,15 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         this.inflater = LayoutInflater.from(context);
     }
 
+    @NonNull
     @Override
-    public RecycleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecycleAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.list_item_row, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecycleAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecycleAdapter.ViewHolder holder, int position) {
         final NoteViewModel noteViewModel = noteViewModels.get(position);
         holder.descriptionView.setText(noteViewModel.getDescription());
 
@@ -52,23 +58,33 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         String dateString = dateFormat.format(noteViewModel.getCreateDate());
         holder.noteEditDateView.setText(dateString);
 
-        holder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Tap handled " + noteViewModel.getId(), Toast.LENGTH_SHORT).show();
-            }
+        holder.view.setOnClickListener(v -> {
+            Toast.makeText(v.getContext(), "Tap handled " + noteViewModel.getId(), Toast.LENGTH_SHORT).show();
+                new BackgroundTask().execute(holder.view);
         });
-        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Toast.makeText(v.getContext(), "Long tap handled " + noteViewModel.getId(), Toast.LENGTH_SHORT).show();
-                return true;
-            }
+        holder.view.setOnLongClickListener(v -> {
+            Toast.makeText(v.getContext(), "Long tap handled " + noteViewModel.getId(), Toast.LENGTH_SHORT).show();
+            return true;
         });
     }
 
     @Override
     public int getItemCount() {
         return noteViewModels.size();
+    }
+
+    static class BackgroundTask extends AsyncTask<View, Integer, Void> {
+        @Override
+        protected Void doInBackground(View... views) {
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            for (View view : views) {
+                mainHandler.post(() -> view.setBackgroundColor(view.getResources().getColor(R.color.list_selected_color)));
+            }
+            SystemClock.sleep(50);
+            for (View view : views) {
+                mainHandler.post(() -> view.setBackgroundColor(view.getResources().getColor(R.color.list_unselected_color)));
+            }
+            return null;
+        }
     }
 }
