@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
 import com.arsbars.reminderandroid.data.NotesDbHelper;
+import com.arsbars.reminderandroid.data.Repository;
 import com.arsbars.reminderandroid.view.NotesViewModel;
 import com.arsbars.reminderandroid.view.adapters.RecycleAdapter;
 import com.arsbars.reminderandroid.view.factory.NotesViewModelFactory;
@@ -36,17 +37,17 @@ public class NotesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         notesViewModel = ViewModelProviders
-                .of(this, new NotesViewModelFactory(new NotesDbHelper(getContext())))
+                .of(this, new NotesViewModelFactory(new Repository(new NotesDbHelper(getContext()))))
                 .get(NotesViewModel.class);
 
         RecyclerView notesRecycleView = getActivity().findViewById(R.id.notesRecycleView);
-        RecycleAdapter recycleAdapter = new RecycleAdapter(getContext(), notesViewModel.getNotes());
+        RecycleAdapter recycleAdapter = new RecycleAdapter(getContext(), notesViewModel);
         notesRecycleView.setAdapter(recycleAdapter);
 
         activity = (MainActivity)getActivity();
         activity.navigateToRoot(getString(R.string.notes), this);
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.push_create_note_view_button);
-        fab.setOnClickListener(view -> activity.push(getString(R.string.create_note_title), CreateNoteFragment.newInstance()));
+        fab.setOnClickListener(view -> activity.push(getString(R.string.create_note_title), EditNoteFragment.newInstance(0)));
     }
 }

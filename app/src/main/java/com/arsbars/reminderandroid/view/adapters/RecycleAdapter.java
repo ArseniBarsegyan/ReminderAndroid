@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.os.SystemClock;
 
+import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
+import com.arsbars.reminderandroid.fragments.EditNoteFragment;
 import com.arsbars.reminderandroid.fragments.dialogs.DeleteNoteDialogFragment;
 import com.arsbars.reminderandroid.view.NoteViewModel;
+import com.arsbars.reminderandroid.view.NotesViewModel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,6 +30,7 @@ import java.util.Locale;
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
     private LayoutInflater inflater;
     private List<NoteViewModel> noteViewModels;
+    private NotesViewModel notesViewModel;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -44,9 +47,10 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         }
     }
 
-    public RecycleAdapter(Context context, List<NoteViewModel> phones) {
-        this.noteViewModels = phones;
+    public RecycleAdapter(Context context, NotesViewModel viewModel) {
+        this.noteViewModels = viewModel.getNotes();
         this.inflater = LayoutInflater.from(context);
+        this.notesViewModel = viewModel;
     }
 
     @NonNull
@@ -66,16 +70,23 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         holder.noteEditDateView.setText(dateString);
 
         holder.view.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "Tap handled " + noteViewModel.getId(), Toast.LENGTH_SHORT).show();
-                new ChangeViewBackgroundTask().execute(holder.view);
+            new ChangeViewBackgroundTask().execute(holder.view);
+            MainActivity activity = (MainActivity) holder.view.getContext();
+            if (noteViewModel.getId() == 0) {
+                activity.push(activity.getResources().getString(R.string.create_note_title),
+                        EditNoteFragment.newInstance(noteViewModel.getId()));
+            } else {
+                activity.push(activity.getResources().getString(R.string.edit_note_title),
+                        EditNoteFragment.newInstance(noteViewModel.getId()));
+            }
         });
         holder.view.setOnLongClickListener(v -> {
             holder.deleteNoteButton.setVisibility(View.VISIBLE);
             holder.deleteNoteButton.setOnClickListener(x -> {
-                DeleteNoteDialogFragment deleteNoteDialogFragment = new DeleteNoteDialogFragment();
+                new ChangeViewBackgroundTask().execute(holder.view);
+                DeleteNoteDialogFragment deleteNoteDialogFragment = DeleteNoteDialogFragment.newInstance(notesViewModel, noteViewModel.getId());
                 FragmentManager manager = ((AppCompatActivity)v.getContext()).getSupportFragmentManager();
                 deleteNoteDialogFragment.show(manager, "delete_note_popup");
-                Toast.makeText(v.getContext(), "Delete note handled " + noteViewModel.getId(), Toast.LENGTH_SHORT).show();
             });
             return true;
         });

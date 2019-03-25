@@ -19,4 +19,6 @@
     <string name="delete_note_question">Delete this note?</string>
     <string name="ok">OK</string>
     <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="edit_note_title">Edit</string>
 </resources>

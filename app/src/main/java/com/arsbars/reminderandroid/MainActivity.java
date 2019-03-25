@@ -1,6 +1,7 @@
 package com.arsbars.reminderandroid;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.arsbars.reminderandroid.fragments.NotesFragment;
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.nav_notes) {
