@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -19,9 +20,16 @@ import java.util.Locale;
 public class Repository {
     private ArrayList<Note> notes;
     private NotesDbHelper dbHelper;
-
-    public Repository(NotesDbHelper dbHelper) {
+    private Repository(NotesDbHelper dbHelper) {
         this.dbHelper = dbHelper;
+    }
+    private static Repository instance;
+
+    public static Repository getInstance(NotesDbHelper dbHelper) {
+        if (instance == null) {
+            instance = new Repository(dbHelper);
+        }
+        return instance;
     }
 
     public List<NoteViewModel> getNotes() {
@@ -29,6 +37,7 @@ public class Repository {
             notes = new ArrayList<>();
             loadNotes();
         }
+        Collections.reverse(notes);
         ArrayList<NoteViewModel> clonedNotes = new ArrayList<>(notes.size());
         for (int i = 0; i < notes.size(); i++) {
             clonedNotes.add(new NoteViewModel(notes.get(i)));

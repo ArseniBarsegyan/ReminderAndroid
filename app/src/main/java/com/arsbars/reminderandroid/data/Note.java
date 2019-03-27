@@ -12,14 +12,14 @@ public class Note {
         return id;
     }
 
-    public Note(long id, String description, Date createDate, Date editDate) {
+    Note(long id, String description, Date createDate, Date editDate) {
         this.id = id;
         this.description = description;
         this.createDate = createDate;
         this.editDate = editDate;
     }
 
-    public Note(Note note) {
+    Note(Note note) {
         this.id = note.id;
         this.createDate = note.createDate;
         this.editDate = note.editDate;

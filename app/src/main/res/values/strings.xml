@@ -21,4 +21,6 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="edit_note_title">Edit</string>
+    <string name="pin_use_description">Use pin to protect your data</string>
+    <string name="use_pin_title">Use pin</string>
 </resources>

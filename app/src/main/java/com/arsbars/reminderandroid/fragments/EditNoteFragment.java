@@ -39,7 +39,7 @@ public class EditNoteFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         noteEditViewModel = ViewModelProviders
-                .of(this, new CreateNoteViewModelFactory(new Repository(new NotesDbHelper(getContext()))))
+                .of(this, new CreateNoteViewModelFactory(Repository.getInstance(new NotesDbHelper(getContext()))))
                 .get(NoteEditViewModel.class);
 
         final MainActivity activity = (MainActivity) getActivity();
