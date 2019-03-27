@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
+    android:id="@+id/noteCellLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_centerVertical="true"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    card_view:cardCornerRadius="4dp"
+    card_view:contentPadding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/noteDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:padding="8dp"
+            android:textColor="@color/dark_text_color"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/noteEditDate"
+            android:padding="8dp"
+            android:textColor="@color/dark_text_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/delete_note_button"
+            android:visibility="invisible"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/note_delete_button_background"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

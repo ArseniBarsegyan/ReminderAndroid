@@ -9,6 +9,6 @@
     <color name="list_selected_color">#CCCCCC</color>
     <color name="list_unselected_color">#fafafa</color>
     <color name="button_background">#e1e1e1</color>
-    <color name="page_background">#fafafa</color>
+    <color name="page_background">#FCFAFA</color>
     <color name="color_danger">#c9302c</color>
 </resources>

@@ -32,8 +32,8 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     private List<NoteViewModel> noteViewModels;
     private NotesViewModel notesViewModel;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public View view;
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        View view;
         private TextView descriptionView, noteEditDateView;
         private ImageButton deleteNoteButton;
 
@@ -56,7 +56,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     @NonNull
     @Override
     public RecycleAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.list_item_row, parent, false);
+        View view = inflater.inflate(R.layout.notes_list_item_row, parent, false);
         return new ViewHolder(view);
     }
 
@@ -81,7 +81,11 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
             }
         });
         holder.view.setOnLongClickListener(v -> {
-            holder.deleteNoteButton.setVisibility(View.VISIBLE);
+            if (holder.deleteNoteButton.getVisibility() == View.VISIBLE) {
+                holder.deleteNoteButton.setVisibility(View.INVISIBLE);
+            } else {
+                holder.deleteNoteButton.setVisibility(View.VISIBLE);
+            }
             holder.deleteNoteButton.setOnClickListener(x -> {
                 new ChangeViewBackgroundTask().execute(holder.view);
                 DeleteNoteDialogFragment deleteNoteDialogFragment = DeleteNoteDialogFragment.newInstance(notesViewModel, noteViewModel.getId());
