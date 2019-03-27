@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreferenceCompat
-        android:key="pref_pin"
+        android:key="@string/pin_preference"
         android:summary="@string/pin_use_description"
         android:title="@string/use_pin_title" />
 </PreferenceScreen>

@@ -1,9 +1,11 @@
 package com.arsbars.reminderandroid.view.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceManager;
 
 import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
@@ -27,6 +29,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onActivityCreated(savedInstanceState);
         activity = (MainActivity)getActivity();
         viewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        viewModel.setUsingPin(prefs.getBoolean(getResources().getString(R.string.pin_preference), false));
     }
 
     @Override
