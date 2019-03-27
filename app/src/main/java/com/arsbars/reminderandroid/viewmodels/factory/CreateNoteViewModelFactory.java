@@ -1,10 +1,10 @@
-package com.arsbars.reminderandroid.view.factory;
+package com.arsbars.reminderandroid.viewmodels.factory;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.arsbars.reminderandroid.data.Repository;
-import com.arsbars.reminderandroid.view.NoteEditViewModel;
+import com.arsbars.reminderandroid.viewmodels.NoteEditViewModel;
 
 public class CreateNoteViewModelFactory implements ViewModelProvider.Factory {
     private Repository repository;

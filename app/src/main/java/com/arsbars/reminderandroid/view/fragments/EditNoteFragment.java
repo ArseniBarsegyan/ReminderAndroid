@@ -1,4 +1,4 @@
-package com.arsbars.reminderandroid.fragments;
+package com.arsbars.reminderandroid.view.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -16,8 +16,8 @@ import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
 import com.arsbars.reminderandroid.data.NotesDbHelper;
 import com.arsbars.reminderandroid.data.Repository;
-import com.arsbars.reminderandroid.view.NoteEditViewModel;
-import com.arsbars.reminderandroid.view.factory.CreateNoteViewModelFactory;
+import com.arsbars.reminderandroid.viewmodels.NoteEditViewModel;
+import com.arsbars.reminderandroid.viewmodels.factory.CreateNoteViewModelFactory;
 
 public class EditNoteFragment extends Fragment {
     private long noteId;

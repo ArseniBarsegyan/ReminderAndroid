@@ -1,4 +1,4 @@
-package com.arsbars.reminderandroid.view;
+package com.arsbars.reminderandroid.services;
 
 import android.support.v4.app.Fragment;
 

@@ -17,10 +17,10 @@ import android.widget.TextView;
 
 import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
-import com.arsbars.reminderandroid.fragments.EditNoteFragment;
-import com.arsbars.reminderandroid.fragments.dialogs.DeleteNoteDialogFragment;
-import com.arsbars.reminderandroid.view.NoteViewModel;
-import com.arsbars.reminderandroid.view.NotesViewModel;
+import com.arsbars.reminderandroid.view.fragments.EditNoteFragment;
+import com.arsbars.reminderandroid.view.fragments.dialogs.DeleteNoteDialogFragment;
+import com.arsbars.reminderandroid.viewmodels.NoteViewModel;
+import com.arsbars.reminderandroid.viewmodels.NotesViewModel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

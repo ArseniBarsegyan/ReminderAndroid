@@ -16,8 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.arsbars.reminderandroid.fragments.NotesFragment;
-import com.arsbars.reminderandroid.view.FragmentNavigationService;
+import com.arsbars.reminderandroid.view.fragments.NotesFragment;
+import com.arsbars.reminderandroid.view.fragments.SettingsFragment;
+import com.arsbars.reminderandroid.services.FragmentNavigationService;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentNavigationService {
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_achievements) {
             Toast.makeText(this,getString(R.string.achievements), Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_settings) {
-            Toast.makeText(this,getString(R.string.settings), Toast.LENGTH_SHORT).show();
+            navigateToRoot(getResources().getString(R.string.settings), SettingsFragment.newInstance());
         } else if (id == R.id.nav_exit) {
             Toast.makeText(this,getString(R.string.logout), Toast.LENGTH_SHORT).show();
         }

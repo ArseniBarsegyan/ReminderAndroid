@@ -1,4 +1,4 @@
-package com.arsbars.reminderandroid.fragments;
+package com.arsbars.reminderandroid.view.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
-import com.arsbars.reminderandroid.view.SettingsViewModel;
+import com.arsbars.reminderandroid.viewmodels.SettingsViewModel;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
     private MainActivity activity;

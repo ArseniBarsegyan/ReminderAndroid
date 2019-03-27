@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.arsbars.reminderandroid.view.NoteViewModel;
+import com.arsbars.reminderandroid.viewmodels.NoteViewModel;
 
 import java.text.DateFormat;
 import java.text.ParseException;

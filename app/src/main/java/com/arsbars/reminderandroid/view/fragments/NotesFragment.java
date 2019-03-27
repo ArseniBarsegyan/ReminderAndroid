@@ -1,4 +1,4 @@
-package com.arsbars.reminderandroid.fragments;
+package com.arsbars.reminderandroid.view.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -15,9 +15,9 @@ import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
 import com.arsbars.reminderandroid.data.NotesDbHelper;
 import com.arsbars.reminderandroid.data.Repository;
-import com.arsbars.reminderandroid.view.NotesViewModel;
+import com.arsbars.reminderandroid.viewmodels.NotesViewModel;
 import com.arsbars.reminderandroid.view.adapters.RecycleAdapter;
-import com.arsbars.reminderandroid.view.factory.NotesViewModelFactory;
+import com.arsbars.reminderandroid.viewmodels.factory.NotesViewModelFactory;
 
 public class NotesFragment extends Fragment {
     private MainActivity activity;

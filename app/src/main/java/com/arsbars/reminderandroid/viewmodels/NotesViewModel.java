@@ -1,4 +1,4 @@
-package com.arsbars.reminderandroid.view;
+package com.arsbars.reminderandroid.viewmodels;
 
 import android.arch.lifecycle.ViewModel;
 

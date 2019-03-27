@@ -1,4 +1,4 @@
-package com.arsbars.reminderandroid.fragments.dialogs;
+package com.arsbars.reminderandroid.view.fragments.dialogs;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,8 +8,8 @@ import android.support.v4.app.DialogFragment;
 
 import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
-import com.arsbars.reminderandroid.fragments.NotesFragment;
-import com.arsbars.reminderandroid.view.NotesViewModel;
+import com.arsbars.reminderandroid.view.fragments.NotesFragment;
+import com.arsbars.reminderandroid.viewmodels.NotesViewModel;
 
 public class DeleteNoteDialogFragment extends DialogFragment {
     private static NotesViewModel notesViewModel;
