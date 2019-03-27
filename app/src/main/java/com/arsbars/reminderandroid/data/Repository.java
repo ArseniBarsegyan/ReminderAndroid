@@ -20,16 +20,9 @@ import java.util.Locale;
 public class Repository {
     private ArrayList<Note> notes;
     private NotesDbHelper dbHelper;
-    private Repository(NotesDbHelper dbHelper) {
-        this.dbHelper = dbHelper;
-    }
-    private static Repository instance;
 
-    public static Repository getInstance(NotesDbHelper dbHelper) {
-        if (instance == null) {
-            instance = new Repository(dbHelper);
-        }
-        return instance;
+    public Repository(NotesDbHelper dbHelper) {
+        this.dbHelper = dbHelper;
     }
 
     public List<NoteViewModel> getNotes() {

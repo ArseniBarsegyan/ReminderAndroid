@@ -36,7 +36,7 @@ public class NotesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         NotesViewModel notesViewModel = ViewModelProviders
-                .of(this, new NotesViewModelFactory(Repository.getInstance(new NotesDbHelper(getContext()))))
+                .of(this, new NotesViewModelFactory(new Repository(new NotesDbHelper(getContext()))))
                 .get(NotesViewModel.class);
 
         activity = (MainActivity)getActivity();
