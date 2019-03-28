@@ -91,8 +91,7 @@ public class Repository {
                 values,
                 SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
-        Note note = new Note(id, description, today, today);
-        return new Note(note);
+        return new Note(id, description, today, today);
     }
 
     public void removeNote(long id) {

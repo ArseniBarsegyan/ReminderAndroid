@@ -66,7 +66,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         holder.descriptionView.setText(noteViewModel.getDescription());
 
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US);
-        String dateString = dateFormat.format(noteViewModel.getCreateDate());
+        String dateString = dateFormat.format(noteViewModel.getEditDate());
         holder.noteEditDateView.setText(dateString);
 
         holder.view.setOnClickListener(v -> {
