@@ -30,7 +30,6 @@ public class Repository {
             notes = new ArrayList<>();
             loadNotes();
         }
-        Collections.reverse(notes);
         ArrayList<NoteViewModel> clonedNotes = new ArrayList<>(notes.size());
         for (int i = 0; i < notes.size(); i++) {
             clonedNotes.add(new NoteViewModel(notes.get(i)));
@@ -74,6 +73,7 @@ public class Repository {
         }
         cursor.close();
         db.close();
+        Collections.reverse(notes);
     }
 
     public Note createNote(String description) {
