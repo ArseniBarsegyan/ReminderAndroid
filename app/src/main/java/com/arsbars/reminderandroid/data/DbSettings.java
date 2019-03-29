@@ -3,7 +3,7 @@ package com.arsbars.reminderandroid.data;
 import android.provider.BaseColumns;
 
 class DbSettings {
-    static final String DB_NAME = "ReminderDroid.db";
+        static final String DB_NAME = "ReminderDroid.db";
     static final int DB_VERSION = 1;
 
     class DBEntry implements BaseColumns {

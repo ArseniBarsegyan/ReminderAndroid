@@ -58,16 +58,15 @@ public class EditNoteFragment extends Fragment {
                 String noteDescription = ((EditText)getActivity().findViewById(R.id.note_description))
                         .getText()
                         .toString();
-                if (noteDescription.matches(".*\\w.*")) {
+                if (noteDescription.trim().equals("")) {
+                    Toast.makeText(getContext(), getString(R.string.note_create_error), Toast.LENGTH_SHORT).show();
+                } else {
                     if (this.noteId == 0) {
                         noteEditViewModel.createNote(noteDescription);
                     } else {
                         noteEditViewModel.editNote(this.noteId, noteDescription);
                     }
-
                     activity.navigateToRoot(getString(R.string.notes), NotesFragment.newInstance());
-                } else {
-                    Toast.makeText(getContext(), getString(R.string.note_create_error), Toast.LENGTH_SHORT).show();
                 }
             });
             activity.findViewById(R.id.cancel_note_create_button).setOnClickListener(v ->
