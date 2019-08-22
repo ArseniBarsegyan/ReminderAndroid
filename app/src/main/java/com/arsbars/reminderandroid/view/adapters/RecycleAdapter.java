@@ -39,9 +39,9 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
         ViewHolder(View view){
             super(view);
-            descriptionView = (TextView)view.findViewById(R.id.noteDescription);
-            noteEditDateView = (TextView)view.findViewById(R.id.noteEditDate);
-            deleteNoteButton = (ImageButton)view.findViewById(R.id.delete_note_button);
+            descriptionView = view.findViewById(R.id.noteDescription);
+            noteEditDateView = view.findViewById(R.id.noteEditDate);
+            deleteNoteButton = view.findViewById(R.id.delete_note_button);
 
             this.view = view;
         }

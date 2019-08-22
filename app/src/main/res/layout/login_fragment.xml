@@ -6,11 +6,13 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/loginTitle"
+        android:id="@+id/loginRegisterTitle"
+        android:textSize="24sp"
+        android:textColor="@color/dark_text_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="@string/login_title"
+        android:text="@string/login"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +25,7 @@
         android:width="300dp"
         android:hint="@string/user_name_hint"
         android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/loginTitle"
+        app:layout_constraintTop_toBottomOf="@+id/loginRegisterTitle"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -39,25 +41,37 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
+    <EditText
+        android:id="@+id/confirmPasswordEntry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:width="300dp"
+        android:visibility="invisible"
+        android:hint="@string/confirm_password_hint"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEntry"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/loginRegisterButton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="@string/login_title"
+        android:text="@string/login"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEntry" />
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordEntry" />
 
     <Button
         android:id="@+id/registerLinkButton"
         android:layout_width="300dp"
-        android:background="@color/button_background"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/register"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+        app:layout_constraintTop_toBottomOf="@+id/loginRegisterButton" />
 
 </android.support.constraint.ConstraintLayout>

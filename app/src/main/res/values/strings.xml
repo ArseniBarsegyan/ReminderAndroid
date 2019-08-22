@@ -25,8 +25,9 @@
     <string name="use_pin_title">Use pin</string>
     <string name="pin_preference">pref_pin</string>
     <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm password</string>
     <string name="user_name_hint">User name</string>
-    <string name="login_title">Login</string>
+    <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->

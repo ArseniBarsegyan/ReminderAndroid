@@ -1,6 +1,5 @@
 package com.arsbars.reminderandroid;
 
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -14,14 +13,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        InitiateView();
     }
 
     private void InitiateView() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        ConstraintLayout rootLayout = (ConstraintLayout)findViewById(R.id.loginRootLayout);
-        fragmentTransaction.replace(R.id.root_layout, LoginFragment.newInstance());
+        fragmentTransaction.replace(R.id.loginRootLayout, LoginFragment.newInstance());
         fragmentTransaction.commit();
     }
 }

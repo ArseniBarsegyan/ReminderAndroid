@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // navigateToRoot(getString(R.string.notes), NotesFragment.newInstance());
-        navigateToRoot(getString(R.string.login_title), LoginFragment.newInstance());
+        navigateToRoot(getString(R.string.login), LoginFragment.newInstance());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        ConstraintLayout rootLayout = (ConstraintLayout)findViewById(R.id.root_layout);
+        ConstraintLayout rootLayout = findViewById(R.id.root_layout);
         if (rootLayout.getChildCount() == 0) {
             fragmentTransaction.add(R.id.root_layout, fragment);
         } else {
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
 
         toolbar.setTitle(title);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this,getString(R.string.logout), Toast.LENGTH_SHORT).show();
         }
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
