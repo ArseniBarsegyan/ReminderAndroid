@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.arsbars.reminderandroid.view.fragments.LoginFragment;
 import com.arsbars.reminderandroid.view.fragments.NotesFragment;
 import com.arsbars.reminderandroid.view.fragments.SettingsFragment;
 import com.arsbars.reminderandroid.services.FragmentNavigationService;
@@ -34,7 +35,8 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        navigateToRoot(getString(R.string.notes), NotesFragment.newInstance());
+        // navigateToRoot(getString(R.string.notes), NotesFragment.newInstance());
+        navigateToRoot(getString(R.string.login_title), LoginFragment.newInstance());
     }
 
     @Override

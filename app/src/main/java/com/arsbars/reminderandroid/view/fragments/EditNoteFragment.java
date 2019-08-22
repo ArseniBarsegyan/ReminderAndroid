@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
-import com.arsbars.reminderandroid.data.NotesDbHelper;
-import com.arsbars.reminderandroid.data.Repository;
+import com.arsbars.reminderandroid.data.note.NotesDbHelper;
+import com.arsbars.reminderandroid.data.note.NoteRepository;
 import com.arsbars.reminderandroid.viewmodels.NoteEditViewModel;
 import com.arsbars.reminderandroid.viewmodels.factory.CreateNoteViewModelFactory;
 
@@ -39,7 +39,7 @@ public class EditNoteFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         noteEditViewModel = ViewModelProviders
-                .of(this, new CreateNoteViewModelFactory(new Repository(new NotesDbHelper(getContext()))))
+                .of(this, new CreateNoteViewModelFactory(new NoteRepository(new NotesDbHelper(getContext()))))
                 .get(NoteEditViewModel.class);
 
         final MainActivity activity = (MainActivity) getActivity();

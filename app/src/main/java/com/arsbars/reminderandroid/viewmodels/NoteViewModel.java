@@ -2,7 +2,7 @@ package com.arsbars.reminderandroid.viewmodels;
 
 import android.arch.lifecycle.ViewModel;
 
-import com.arsbars.reminderandroid.data.Note;
+import com.arsbars.reminderandroid.data.note.Note;
 
 import java.util.Date;
 

@@ -2,14 +2,14 @@ package com.arsbars.reminderandroid.viewmodels;
 
 import android.arch.lifecycle.ViewModel;
 
-import com.arsbars.reminderandroid.data.Note;
-import com.arsbars.reminderandroid.data.Repository;
+import com.arsbars.reminderandroid.data.note.Note;
+import com.arsbars.reminderandroid.data.note.NoteRepository;
 
 public class NoteEditViewModel extends ViewModel {
-    private Repository repository;
+    private NoteRepository noteRepository;
 
     public String getNoteDescription(long noteId) {
-        for (NoteViewModel viewModel : repository.getNotes()) {
+        for (NoteViewModel viewModel : noteRepository.getNotes()) {
             if (viewModel.getId() == noteId) {
                 return viewModel.getDescription();
             }
@@ -17,15 +17,15 @@ public class NoteEditViewModel extends ViewModel {
         return "";
     }
 
-    public NoteEditViewModel(Repository repository) {
-        this.repository = repository;
+    public NoteEditViewModel(NoteRepository noteRepository) {
+        this.noteRepository = noteRepository;
     }
 
     public Note createNote(String description) {
-        return repository.createNote(description);
+        return noteRepository.createNote(description);
     }
 
     public void editNote(long id, String description) {
-        repository.editNote(id, description);
+        noteRepository.editNote(id, description);
     }
 }

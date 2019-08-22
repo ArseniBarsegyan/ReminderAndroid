@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 
 import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
-import com.arsbars.reminderandroid.data.NotesDbHelper;
-import com.arsbars.reminderandroid.data.Repository;
+import com.arsbars.reminderandroid.data.note.NotesDbHelper;
+import com.arsbars.reminderandroid.data.note.NoteRepository;
 import com.arsbars.reminderandroid.viewmodels.NotesViewModel;
 import com.arsbars.reminderandroid.view.adapters.RecycleAdapter;
 import com.arsbars.reminderandroid.viewmodels.factory.NotesViewModelFactory;
@@ -36,7 +36,7 @@ public class NotesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         NotesViewModel notesViewModel = ViewModelProviders
-                .of(this, new NotesViewModelFactory(new Repository(new NotesDbHelper(getContext()))))
+                .of(this, new NotesViewModelFactory(new NoteRepository(new NotesDbHelper(getContext()))))
                 .get(NotesViewModel.class);
 
         activity = (MainActivity)getActivity();

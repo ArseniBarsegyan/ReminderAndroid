@@ -1,10 +1,11 @@
-package com.arsbars.reminderandroid.data;
+package com.arsbars.reminderandroid.data.note;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.arsbars.reminderandroid.data.base.DBEntry;
 import com.arsbars.reminderandroid.viewmodels.NoteViewModel;
 
 import java.text.DateFormat;
@@ -17,11 +18,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Repository {
+public class NoteRepository {
     private ArrayList<Note> notes;
     private NotesDbHelper dbHelper;
 
-    public Repository(NotesDbHelper dbHelper) {
+    public NoteRepository(NotesDbHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
 
@@ -41,20 +42,20 @@ public class Repository {
         notes.clear();
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.query(DbSettings.DBEntry.NOTES_TABLE,
+        Cursor cursor = db.query(DBEntry.NOTES_TABLE,
                 new String[]{
-                        DbSettings.DBEntry.COLUMN_ID,
-                        DbSettings.DBEntry.DESCRIPTION,
-                        DbSettings.DBEntry.CREATE_DATE,
-                        DbSettings.DBEntry.EDIT_DATE
+                        DBEntry.COLUMN_ID,
+                        DBEntry.DESCRIPTION,
+                        DBEntry.CREATE_DATE,
+                        DBEntry.EDIT_DATE
                 },
                 null, null, null, null, null);
         while (cursor.moveToNext()) {
             try {
-                int idIndex = cursor.getColumnIndex(DbSettings.DBEntry.COLUMN_ID);
-                int descriptionIndex = cursor.getColumnIndex(DbSettings.DBEntry.DESCRIPTION);
-                int createdDateIndex = cursor.getColumnIndex(DbSettings.DBEntry.CREATE_DATE);
-                int editDateIndex = cursor.getColumnIndex(DbSettings.DBEntry.EDIT_DATE);
+                int idIndex = cursor.getColumnIndex(DBEntry.COLUMN_ID);
+                int descriptionIndex = cursor.getColumnIndex(DBEntry.DESCRIPTION);
+                int createdDateIndex = cursor.getColumnIndex(DBEntry.CREATE_DATE);
+                int editDateIndex = cursor.getColumnIndex(DBEntry.EDIT_DATE);
 
                 Date createdDate = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US)
                         .parse(cursor.getString(createdDateIndex));
@@ -83,10 +84,10 @@ public class Repository {
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DbSettings.DBEntry.DESCRIPTION, description);
-        values.put(DbSettings.DBEntry.CREATE_DATE, createDate);
-        values.put(DbSettings.DBEntry.EDIT_DATE, createDate);
-        long id = db.insertWithOnConflict(DbSettings.DBEntry.NOTES_TABLE,
+        values.put(DBEntry.DESCRIPTION, description);
+        values.put(DBEntry.CREATE_DATE, createDate);
+        values.put(DBEntry.EDIT_DATE, createDate);
+        long id = db.insertWithOnConflict(DBEntry.NOTES_TABLE,
                 null,
                 values,
                 SQLiteDatabase.CONFLICT_REPLACE);
@@ -97,8 +98,8 @@ public class Repository {
     public void removeNote(long id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(
-                DbSettings.DBEntry.NOTES_TABLE,
-                DbSettings.DBEntry.COLUMN_ID + " = ?",
+                DBEntry.NOTES_TABLE,
+                DBEntry.COLUMN_ID + " = ?",
                 new String[]{Long.toString(id)}
         );
         db.close();
@@ -122,11 +123,11 @@ public class Repository {
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DbSettings.DBEntry.DESCRIPTION, description);
-        values.put(DbSettings.DBEntry.EDIT_DATE, editDate);
-        long id = db.update(DbSettings.DBEntry.NOTES_TABLE,
+        values.put(DBEntry.DESCRIPTION, description);
+        values.put(DBEntry.EDIT_DATE, editDate);
+        long id = db.update(DBEntry.NOTES_TABLE,
                 values,
-                DbSettings.DBEntry.COLUMN_ID + "=" + String.valueOf(noteId),
+                DBEntry.COLUMN_ID + "=" + String.valueOf(noteId),
                 null);
         db.close();
     }

@@ -1,4 +1,4 @@
-package com.arsbars.reminderandroid.data;
+package com.arsbars.reminderandroid.data.note;
 
 import java.util.Date;
 
@@ -7,10 +7,6 @@ public class Note {
     private String description;
     private Date createDate;
     private Date editDate;
-
-    public long getId() {
-        return id;
-    }
 
     Note(long id, String description, Date createDate, Date editDate) {
         this.id = id;
@@ -24,6 +20,10 @@ public class Note {
         this.createDate = note.createDate;
         this.editDate = note.editDate;
         this.description = note.description;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public void setId(long id) {

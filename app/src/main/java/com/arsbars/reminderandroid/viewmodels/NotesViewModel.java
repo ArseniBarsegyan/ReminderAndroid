@@ -2,22 +2,22 @@ package com.arsbars.reminderandroid.viewmodels;
 
 import android.arch.lifecycle.ViewModel;
 
-import com.arsbars.reminderandroid.data.Repository;
+import com.arsbars.reminderandroid.data.note.NoteRepository;
 
 import java.util.List;
 
 public class NotesViewModel extends ViewModel {
-    private Repository repository;
+    private NoteRepository noteRepository;
 
-    public NotesViewModel(Repository repository) {
-        this.repository = repository;
+    public NotesViewModel(NoteRepository noteRepository) {
+        this.noteRepository = noteRepository;
     }
 
     public List<NoteViewModel> getNotes() {
-        return this.repository.getNotes();
+        return this.noteRepository.getNotes();
     }
 
     public void removeNote(long id) {
-        this.repository.removeNote(id);
+        this.noteRepository.removeNote(id);
     }
 }
