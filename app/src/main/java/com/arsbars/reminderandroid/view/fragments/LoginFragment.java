@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.arsbars.reminderandroid.LoginActivity;
+import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
 import com.arsbars.reminderandroid.data.user.UserDbHelper;
 import com.arsbars.reminderandroid.data.user.UserRepository;
@@ -21,7 +21,7 @@ import com.arsbars.reminderandroid.viewmodels.LoginViewModel;
 import com.arsbars.reminderandroid.viewmodels.factory.LoginViewModelFactory;
 
 public class LoginFragment extends Fragment {
-    private LoginActivity activity;
+    private MainActivity activity;
     private TextView titleTextView;
     private EditText userNameEntry;
     private EditText passwordEntry;
@@ -47,7 +47,7 @@ public class LoginFragment extends Fragment {
                 .of(this, new LoginViewModelFactory(new UserRepository(new UserDbHelper(getContext()))))
                 .get(LoginViewModel.class);
 
-        activity = (LoginActivity)getActivity();
+        activity = (MainActivity)getActivity();
 
         InitializeControls();
         SubsribeControls();
@@ -79,9 +79,9 @@ public class LoginFragment extends Fragment {
         });
         this.loginRegisterButton.setOnClickListener(v -> {
             if (this.isLoginMode) {
-                Toast.makeText(getContext(),"Login", Toast.LENGTH_SHORT).show();
-            } else {
                 Toast.makeText(getContext(),"Register", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(),"Login", Toast.LENGTH_SHORT).show();
             }
         });
     }
