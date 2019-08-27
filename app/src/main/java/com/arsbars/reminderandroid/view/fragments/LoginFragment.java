@@ -29,6 +29,7 @@ public class LoginFragment extends Fragment {
     private Button loginRegisterButton;
     private Button registerLinkButton;
     private boolean isLoginMode;
+    private LoginViewModel loginViewModel;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -43,7 +44,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        LoginViewModel loginViewModel = ViewModelProviders
+        this.loginViewModel = ViewModelProviders
                 .of(this, new LoginViewModelFactory(new UserRepository(new UserDbHelper(getContext()))))
                 .get(LoginViewModel.class);
 
@@ -78,10 +79,19 @@ public class LoginFragment extends Fragment {
             this.isLoginMode = !this.isLoginMode;
         });
         this.loginRegisterButton.setOnClickListener(v -> {
+            this.loginViewModel.setUsername(this.userNameEntry.getText().toString());
+            this.loginViewModel.setPassword(this.passwordEntry.getText().toString());
+            this.loginViewModel.setConfirmPassword(this.confirmPasswordEntry.getText().toString());
+
             if (this.isLoginMode) {
                 Toast.makeText(getContext(),"Register", Toast.LENGTH_SHORT).show();
+                this.loginViewModel.createNewUser();
             } else {
-                Toast.makeText(getContext(),"Login", Toast.LENGTH_SHORT).show();
+                if (this.loginViewModel.login()) {
+                    Toast.makeText(getContext(),"Login successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(),"No such user", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

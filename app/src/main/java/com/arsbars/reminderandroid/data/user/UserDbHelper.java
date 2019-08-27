@@ -17,7 +17,7 @@ public class UserDbHelper extends SQLiteOpenHelper {
         String createTable = "CREATE TABLE IF NOT EXISTS " + DBEntry.USERS_TABLE +" (" +
                 DBEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DBEntry.USERNAME + " TEXT NOT NULL, " +
-                DBEntry.PASSWORD + " TEXT NOT NULL, " +
+                DBEntry.PASSWORD + " BLOB NOT NULL, " +
                 DBEntry.IMAGE_CONTENT + " BLOB);";
         db.execSQL(createTable);
     }

@@ -1,9 +1,14 @@
 package com.arsbars.reminderandroid.viewmodels;
 
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
 import com.arsbars.reminderandroid.data.user.User;
 import com.arsbars.reminderandroid.data.user.UserRepository;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class LoginViewModel extends ViewModel {
     private String username;
@@ -41,10 +46,36 @@ public class LoginViewModel extends ViewModel {
     }
 
     public int createNewUser() {
-        User user = this.userRepository.createUser(this.username, this.password);
-        if (user != null) {
-            return 1;
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+
+            User user = this.userRepository.createUser(this.username, hash);
+            if (user != null) {
+                return 1;
+            }
+            return 0;
+        } catch (NoSuchAlgorithmException e) {
+            Log.d("Algorithm", e.getMessage(),e);
         }
         return 0;
+    }
+
+    public boolean login() {
+        boolean result = false;
+
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            String hashedString = new String(hash);
+            User user = this.userRepository.getUserByName(this.username);
+            if (user != null) {
+                String userPasswordHashedString = new String(user.getPassword());
+                result = hashedString.equals(userPasswordHashedString);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.d("Algorithm", e.getMessage(), e);
+        }
+        return result;
     }
 }

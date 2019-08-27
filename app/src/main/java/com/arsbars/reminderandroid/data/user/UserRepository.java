@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.arsbars.reminderandroid.data.base.DBEntry;
+import com.arsbars.reminderandroid.data.base.DbSettings;
 
 public class UserRepository {
     private UserDbHelper dbHelper;
@@ -33,12 +34,14 @@ public class UserRepository {
             db.close();
 
             return new User(cursor.getLong(idIndex), cursor.getString(userNameIndex),
-                    cursor.getString(userPasswordIndex), cursor.getBlob(imageContentIndex));
+                    cursor.getBlob(userPasswordIndex), cursor.getBlob(imageContentIndex));
         }
+        cursor.close();
+        db.close();
         return null;
     }
 
-    public User createUser(String username, String password) {
+    public User createUser(String username, byte[] password) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DBEntry.USERNAME, username);
@@ -52,6 +55,33 @@ public class UserRepository {
         return new User(id, username, password, new byte[0]);
     }
 
+    public User getUserByName(String name) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        User user = null;
+
+        Cursor cursor = db.rawQuery("SELECT "
+                + "[" + DBEntry.COLUMN_ID + "],"
+                + "[" + DBEntry.USERNAME + "],"
+                + "[" + DBEntry.IMAGE_CONTENT + "],"
+                + "[" + DBEntry.PASSWORD
+                + "] FROM "
+                + DBEntry.USERS_TABLE
+                + " WHERE "
+                + DBEntry.USERNAME + " = ?", new String[] {name});
+        if (cursor.moveToNext()) {
+            int userIdIndex = cursor.getColumnIndex(DBEntry.COLUMN_ID);
+            int userPasswordIndex = cursor.getColumnIndex(DBEntry.PASSWORD);
+            int userNameIndex = cursor.getColumnIndex(DBEntry.USERNAME);
+            int userImageIndex = cursor.getColumnIndex(DBEntry.IMAGE_CONTENT);
+
+            user = new User(cursor.getLong(userIdIndex), cursor.getString(userNameIndex),
+                    cursor.getBlob(userPasswordIndex), cursor.getBlob(userImageIndex));
+        }
+        cursor.close();
+        db.close();
+        return user;
+    }
+
     public void removeUser(long id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(
@@ -62,7 +92,7 @@ public class UserRepository {
         db.close();
     }
 
-    public void editUser(long userId, String username, String password, byte[] imageContent) {
+    public void editUser(long userId, String username, byte[] password, byte[] imageContent) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DBEntry.USERNAME, username);

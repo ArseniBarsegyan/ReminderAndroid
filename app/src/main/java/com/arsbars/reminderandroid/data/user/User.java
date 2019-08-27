@@ -3,10 +3,10 @@ package com.arsbars.reminderandroid.data.user;
 public class User {
     private long id;
     private String username;
-    private String password;
+    private byte[] password;
     private byte[] imageContent;
 
-    User(long id, String username, String password, byte[] imageContent) {
+    User(long id, String username, byte[] password, byte[] imageContent) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -36,11 +36,11 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
+    public byte[] getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(byte[] password) {
         this.password = password;
     }
 
