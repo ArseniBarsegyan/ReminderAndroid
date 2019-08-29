@@ -47,6 +47,11 @@ public class LoginViewModel extends ViewModel {
 
     public int createNewUser() {
         try {
+            User existingUser = this.userRepository.getUserByName(getUsername());
+            if (existingUser != null) {
+                return 0;
+            }
+
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
 
@@ -68,7 +73,7 @@ public class LoginViewModel extends ViewModel {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
             String hashedString = new String(hash);
-            User user = this.userRepository.getUserByName(this.username);
+            User user = this.userRepository.getUserByName(getUsername());
             if (user != null) {
                 String userPasswordHashedString = new String(user.getPassword());
                 result = hashedString.equals(userPasswordHashedString);
