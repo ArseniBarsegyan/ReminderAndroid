@@ -1,5 +1,6 @@
 package com.arsbars.reminderandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -16,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.arsbars.reminderandroid.view.fragments.LoginFragment;
 import com.arsbars.reminderandroid.view.fragments.NotesFragment;
 import com.arsbars.reminderandroid.view.fragments.SettingsFragment;
 import com.arsbars.reminderandroid.services.FragmentNavigationService;
@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // navigateToRoot(getString(R.string.notes), NotesFragment.newInstance());
-        navigateToRoot(getString(R.string.login), LoginFragment.newInstance());
+        navigateToRoot(getString(R.string.notes), NotesFragment.newInstance());
+        // navigateToRoot(getString(R.string.login), LoginFragment.newInstance());
     }
 
     @Override
@@ -116,7 +116,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             navigateToRoot(getResources().getString(R.string.settings), SettingsFragment.newInstance());
         } else if (id == R.id.nav_exit) {
-            Toast.makeText(this,getString(R.string.logout), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
 
         drawer = findViewById(R.id.drawer_layout);

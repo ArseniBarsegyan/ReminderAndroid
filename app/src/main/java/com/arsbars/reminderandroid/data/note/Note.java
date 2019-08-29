@@ -7,12 +7,14 @@ public class Note {
     private String description;
     private Date createDate;
     private Date editDate;
+    private long userId;
 
-    Note(long id, String description, Date createDate, Date editDate) {
+    Note(long id, String description, Date createDate, Date editDate, long userId) {
         this.id = id;
         this.description = description;
         this.createDate = createDate;
         this.editDate = editDate;
+        this.userId = userId;
     }
 
     Note(Note note) {
@@ -53,4 +55,8 @@ public class Note {
     public void setEditDate(Date editDate) {
         this.editDate = editDate;
     }
+
+    public long getUserId() { return userId; }
+
+    public void setUserId(long userId) { this.userId = userId; }
 }

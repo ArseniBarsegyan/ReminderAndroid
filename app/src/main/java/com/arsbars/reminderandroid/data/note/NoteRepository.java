@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.arsbars.reminderandroid.data.base.DBEntry;
+import com.arsbars.reminderandroid.data.base.DatabaseHelper;
 import com.arsbars.reminderandroid.viewmodels.NoteViewModel;
 
 import java.text.DateFormat;
@@ -20,16 +21,16 @@ import java.util.Locale;
 
 public class NoteRepository {
     private ArrayList<Note> notes;
-    private NotesDbHelper dbHelper;
+    private DatabaseHelper dbHelper;
 
-    public NoteRepository(NotesDbHelper dbHelper) {
+    public NoteRepository(DatabaseHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
 
-    public List<NoteViewModel> getNotes() {
+    public List<NoteViewModel> getNotes(long userId) {
         if (notes == null) {
             notes = new ArrayList<>();
-            loadNotes();
+            loadNotes(userId);
         }
         ArrayList<NoteViewModel> clonedNotes = new ArrayList<>(notes.size());
         for (int i = 0; i < notes.size(); i++) {
@@ -38,7 +39,7 @@ public class NoteRepository {
         return clonedNotes;
     }
 
-    private void loadNotes() {
+    private void loadNotes(long userId) {
         notes.clear();
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -63,7 +64,7 @@ public class NoteRepository {
                         .parse(cursor.getString(editDateIndex));
 
                 Note note = new Note(cursor.getLong(idIndex), cursor.getString(descriptionIndex),
-                        createdDate, editDate);
+                        createdDate, editDate, userId);
                 notes.add(note);
             } catch (ParseException e) {
                 Log.d("DateParsingException",
@@ -77,7 +78,7 @@ public class NoteRepository {
         Collections.reverse(notes);
     }
 
-    public Note createNote(String description) {
+    public Note createNote(String description, long userId) {
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US);
         Date today = Calendar.getInstance().getTime();
         String createDate = df.format(today);
@@ -87,12 +88,13 @@ public class NoteRepository {
         values.put(DBEntry.DESCRIPTION, description);
         values.put(DBEntry.CREATE_DATE, createDate);
         values.put(DBEntry.EDIT_DATE, createDate);
+        values.put(DBEntry.COLUMN_USER_ID, userId);
         long id = db.insertWithOnConflict(DBEntry.NOTES_TABLE,
                 null,
                 values,
                 SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
-        return new Note(id, description, today, today);
+        return new Note(id, description, today, today, userId);
     }
 
     public void removeNote(long id) {

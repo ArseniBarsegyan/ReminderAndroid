@@ -5,12 +5,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.arsbars.reminderandroid.data.base.DBEntry;
+import com.arsbars.reminderandroid.data.base.DatabaseHelper;
 import com.arsbars.reminderandroid.data.base.DbSettings;
 
 public class UserRepository {
-    private UserDbHelper dbHelper;
+    private DatabaseHelper dbHelper;
 
-    public UserRepository(UserDbHelper dbHelper) {
+    public UserRepository(DatabaseHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
 

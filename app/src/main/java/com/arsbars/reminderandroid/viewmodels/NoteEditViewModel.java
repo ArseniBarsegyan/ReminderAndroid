@@ -8,8 +8,8 @@ import com.arsbars.reminderandroid.data.note.NoteRepository;
 public class NoteEditViewModel extends ViewModel {
     private NoteRepository noteRepository;
 
-    public String getNoteDescription(long noteId) {
-        for (NoteViewModel viewModel : noteRepository.getNotes()) {
+    public String getNoteDescription(long noteId, long userId) {
+        for (NoteViewModel viewModel : noteRepository.getNotes(userId)) {
             if (viewModel.getId() == noteId) {
                 return viewModel.getDescription();
             }
@@ -21,8 +21,8 @@ public class NoteEditViewModel extends ViewModel {
         this.noteRepository = noteRepository;
     }
 
-    public Note createNote(String description) {
-        return noteRepository.createNote(description);
+    public Note createNote(String description, long userId) {
+        return noteRepository.createNote(description, userId);
     }
 
     public void editNote(long id, String description) {

@@ -31,7 +31,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         viewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        viewModel.setUsingPin(prefs.getBoolean(getResources().getString(R.string.pin_preference), false));
+        viewModel.setUsingPin(prefs.getBoolean(getResources().getString(R.string.pin_preference),
+                false));
     }
 
     @Override

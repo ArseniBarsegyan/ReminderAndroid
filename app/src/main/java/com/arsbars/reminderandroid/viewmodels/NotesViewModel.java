@@ -13,8 +13,8 @@ public class NotesViewModel extends ViewModel {
         this.noteRepository = noteRepository;
     }
 
-    public List<NoteViewModel> getNotes() {
-        return this.noteRepository.getNotes();
+    public List<NoteViewModel> getNotes(long userId) {
+        return this.noteRepository.getNotes(userId);
     }
 
     public void removeNote(long id) {

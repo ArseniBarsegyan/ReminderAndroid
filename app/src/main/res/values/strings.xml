@@ -23,7 +23,8 @@
     <string name="edit_note_title">Edit</string>
     <string name="pin_use_description">Use pin to protect your data</string>
     <string name="use_pin_title">Use pin</string>
-    <string name="pin_preference">pref_pin</string>
+    <string name="pin_preference">pin_preference</string>
+    <string name="user_name_preference">user_name_preference</string>
     <string name="password_hint">Password</string>
     <string name="confirm_password_hint">Confirm password</string>
     <string name="user_name_hint">User name</string>

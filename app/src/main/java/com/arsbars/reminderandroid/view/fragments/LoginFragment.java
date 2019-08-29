@@ -1,10 +1,13 @@
 package com.arsbars.reminderandroid.view.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +16,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arsbars.reminderandroid.LoginActivity;
 import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
-import com.arsbars.reminderandroid.data.user.UserDbHelper;
+import com.arsbars.reminderandroid.data.base.DatabaseHelper;
 import com.arsbars.reminderandroid.data.user.UserRepository;
 import com.arsbars.reminderandroid.viewmodels.LoginViewModel;
 import com.arsbars.reminderandroid.viewmodels.factory.LoginViewModelFactory;
 
 public class LoginFragment extends Fragment {
-    private MainActivity activity;
+    private LoginActivity activity;
     private TextView titleTextView;
     private EditText userNameEntry;
     private EditText passwordEntry;
@@ -45,16 +49,16 @@ public class LoginFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.loginViewModel = ViewModelProviders
-                .of(this, new LoginViewModelFactory(new UserRepository(new UserDbHelper(getContext()))))
+                .of(this, new LoginViewModelFactory(new UserRepository(new DatabaseHelper(getContext()))))
                 .get(LoginViewModel.class);
 
-        activity = (MainActivity)getActivity();
+        activity = (LoginActivity)getActivity();
 
-        InitializeControls();
-        SubsribeControls();
+        initializeControls();
+        subscribeControls();
     }
 
-    private void InitializeControls() {
+    private void initializeControls() {
         this.titleTextView = activity.findViewById(R.id.loginRegisterTitle);
         this.userNameEntry = activity.findViewById(R.id.usernameEntry);
         this.passwordEntry = activity.findViewById(R.id.passwordEntry);
@@ -63,7 +67,7 @@ public class LoginFragment extends Fragment {
         this.registerLinkButton = activity.findViewById(R.id.registerLinkButton);
     }
 
-    private void SubsribeControls() {
+    private void subscribeControls() {
         this.registerLinkButton.setOnClickListener(v -> {
             if (this.isLoginMode) {
                 this.titleTextView.setText(getString(R.string.login));
@@ -89,6 +93,19 @@ public class LoginFragment extends Fragment {
             } else {
                 if (this.loginViewModel.login()) {
                     Toast.makeText(getContext(),"Login successful", Toast.LENGTH_SHORT).show();
+
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    String currentUsername = prefs.getString(getResources()
+                                    .getString(R.string.user_name_preference), "");
+
+                    if (currentUsername.equals("")) {
+                        SharedPreferences.Editor editor = prefs.edit().putString(getResources()
+                                        .getString(R.string.user_name_preference),
+                                this.loginViewModel.getUsername());
+                        editor.apply();
+                    }
+                    Intent intent = new Intent(activity, MainActivity.class);
+                    activity.startActivity(intent);
                 } else {
                     Toast.makeText(getContext(),"No such user", Toast.LENGTH_SHORT).show();
                 }

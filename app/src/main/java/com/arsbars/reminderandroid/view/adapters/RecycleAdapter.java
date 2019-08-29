@@ -47,8 +47,8 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         }
     }
 
-    public RecycleAdapter(Context context, NotesViewModel viewModel) {
-        this.noteViewModels = viewModel.getNotes();
+    public RecycleAdapter(Context context, NotesViewModel viewModel, long userId) {
+        this.noteViewModels = viewModel.getNotes(userId);
         this.inflater = LayoutInflater.from(context);
         this.notesViewModel = viewModel;
     }
