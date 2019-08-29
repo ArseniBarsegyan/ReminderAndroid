@@ -106,6 +106,7 @@ public class LoginFragment extends Fragment {
                     }
                     Intent intent = new Intent(activity, MainActivity.class);
                     activity.startActivity(intent);
+                    activity.finish();
                 } else {
                     Toast.makeText(getContext(),"No such user", Toast.LENGTH_SHORT).show();
                 }

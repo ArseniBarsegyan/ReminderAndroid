@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_exit) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
         }
 
         drawer = findViewById(R.id.drawer_layout);
