@@ -55,9 +55,12 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle(title);
         drawer = findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
         toggle.setDrawerIndicatorEnabled(true);
 
         drawer.addDrawerListener(toggle);
@@ -72,13 +75,18 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle(title);
 
         toggle.setDrawerIndicatorEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager != null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.slide_from_right,
+                    R.anim.slide_to_right);
             fragmentTransaction.replace(R.id.root_layout, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
@@ -119,6 +127,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
+            overridePendingTransition(R.anim.slide_from_right,R.anim.slide_to_right);
         }
 
         drawer = findViewById(R.id.drawer_layout);

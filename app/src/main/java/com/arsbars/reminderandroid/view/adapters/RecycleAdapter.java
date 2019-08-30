@@ -88,8 +88,11 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
             }
             holder.deleteNoteButton.setOnClickListener(x -> {
                 new ChangeViewBackgroundTask().execute(holder.view);
-                DeleteNoteDialogFragment deleteNoteDialogFragment = DeleteNoteDialogFragment.newInstance(notesViewModel, noteViewModel.getId());
-                FragmentManager manager = ((AppCompatActivity)v.getContext()).getSupportFragmentManager();
+                DeleteNoteDialogFragment deleteNoteDialogFragment =
+                        DeleteNoteDialogFragment.newInstance(notesViewModel,
+                                noteViewModel.getId());
+                FragmentManager manager = ((AppCompatActivity)v.getContext())
+                        .getSupportFragmentManager();
                 deleteNoteDialogFragment.show(manager, "delete_note_popup");
             });
             return true;
@@ -106,11 +109,13 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         protected Void doInBackground(View... views) {
             Handler mainHandler = new Handler(Looper.getMainLooper());
             for (View view : views) {
-                mainHandler.post(() -> view.setBackgroundColor(view.getResources().getColor(R.color.list_selected_color)));
+                mainHandler.post(() -> view.setBackgroundColor(view.getResources()
+                        .getColor(R.color.list_selected_color)));
             }
             SystemClock.sleep(50);
             for (View view : views) {
-                mainHandler.post(() -> view.setBackgroundColor(view.getResources().getColor(R.color.list_unselected_color)));
+                mainHandler.post(() -> view.setBackgroundColor(view.getResources()
+                        .getColor(R.color.list_unselected_color)));
             }
             return null;
         }

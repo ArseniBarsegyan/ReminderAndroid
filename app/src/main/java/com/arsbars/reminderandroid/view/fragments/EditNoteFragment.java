@@ -44,7 +44,8 @@ public class EditNoteFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         noteEditViewModel = ViewModelProviders
-                .of(this, new CreateNoteViewModelFactory(new NoteRepository(new DatabaseHelper(getContext()))))
+                .of(this, new CreateNoteViewModelFactory(new NoteRepository(
+                        new DatabaseHelper(getContext()))))
                 .get(NoteEditViewModel.class);
 
         this.activity = (MainActivity) getActivity();
@@ -72,7 +73,8 @@ public class EditNoteFragment extends Fragment {
                     }
 
                     confirmButton.setOnClickListener(v -> {
-                        String noteDescription = ((EditText)getActivity().findViewById(R.id.note_description))
+                        String noteDescription = ((EditText)getActivity().findViewById(
+                                R.id.note_description))
                                 .getText()
                                 .toString();
                         if (noteDescription.trim().equals("")) {
@@ -88,8 +90,9 @@ public class EditNoteFragment extends Fragment {
                                     NotesFragment.newInstance());
                         }
                     });
-                    this.activity.findViewById(R.id.cancel_note_create_button).setOnClickListener(v ->
-                            this.activity.navigateToRoot(getResources().getString(R.string.notes),
+                    this.activity.findViewById(R.id.cancel_note_create_button)
+                            .setOnClickListener(v ->
+                                    this.activity.navigateToRoot(getResources().getString(R.string.notes),
                                     NotesFragment.newInstance()));
                 }
             }

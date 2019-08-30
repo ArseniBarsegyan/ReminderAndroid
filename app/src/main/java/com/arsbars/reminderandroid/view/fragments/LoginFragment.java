@@ -49,7 +49,8 @@ public class LoginFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.loginViewModel = ViewModelProviders
-                .of(this, new LoginViewModelFactory(new UserRepository(new DatabaseHelper(getContext()))))
+                .of(this, new LoginViewModelFactory(new UserRepository(
+                        new DatabaseHelper(getContext()))))
                 .get(LoginViewModel.class);
 
         activity = (LoginActivity)getActivity();
@@ -85,21 +86,26 @@ public class LoginFragment extends Fragment {
         this.loginRegisterButton.setOnClickListener(v -> {
             this.loginViewModel.setUsername(this.userNameEntry.getText().toString());
             this.loginViewModel.setPassword(this.passwordEntry.getText().toString());
-            this.loginViewModel.setConfirmPassword(this.confirmPasswordEntry.getText().toString());
+            this.loginViewModel.setConfirmPassword(this.confirmPasswordEntry
+                    .getText()
+                    .toString());
 
             if (this.isLoginMode) {
                 Toast.makeText(getContext(),"Register", Toast.LENGTH_SHORT).show();
                 this.loginViewModel.createNewUser();
             } else {
                 if (this.loginViewModel.login()) {
-                    Toast.makeText(getContext(),"Login successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Login successful", Toast.LENGTH_SHORT)
+                            .show();
 
-                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    SharedPreferences prefs = PreferenceManager
+                            .getDefaultSharedPreferences(getContext());
                     String currentUsername = prefs.getString(getResources()
                                     .getString(R.string.user_name_preference), "");
 
                     if (currentUsername.equals("")) {
-                        SharedPreferences.Editor editor = prefs.edit().putString(getResources()
+                        SharedPreferences.Editor editor = prefs.edit()
+                                .putString(getResources()
                                         .getString(R.string.user_name_preference),
                                 this.loginViewModel.getUsername());
                         editor.apply();
@@ -107,8 +113,11 @@ public class LoginFragment extends Fragment {
                     Intent intent = new Intent(activity, MainActivity.class);
                     activity.startActivity(intent);
                     activity.finish();
+//                    activity.overridePendingTransition(R.anim.scale_in_from_center,
+//                            R.anim.scale_out_from_center);
                 } else {
-                    Toast.makeText(getContext(),"No such user", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"No such user", Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
         });

@@ -16,7 +16,8 @@ class LoginActivity : AppCompatActivity() {
 
         val rootLayout = findViewById<ConstraintLayout>(R.id.loginActivityRootLayout)
         if (rootLayout.childCount == 0) {
-            fragmentTransaction.replace(R.id.loginActivityRootLayout, LoginFragment.newInstance())
+            fragmentTransaction.replace(R.id.loginActivityRootLayout,
+                    LoginFragment.newInstance())
         }
         fragmentTransaction.commit()
     }
