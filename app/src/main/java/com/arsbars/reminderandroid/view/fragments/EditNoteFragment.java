@@ -1,8 +1,10 @@
 package com.arsbars.reminderandroid.view.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,9 +26,12 @@ import com.arsbars.reminderandroid.viewmodels.NoteEditViewModel;
 import com.arsbars.reminderandroid.viewmodels.factory.CreateNoteViewModelFactory;
 
 public class EditNoteFragment extends Fragment {
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
     private long noteId;
     private NoteEditViewModel noteEditViewModel;
     private MainActivity activity;
+    private User currentUser;
 
     public static EditNoteFragment newInstance(long noteId) {
         EditNoteFragment fragment = new EditNoteFragment();
@@ -49,7 +54,7 @@ public class EditNoteFragment extends Fragment {
                 .get(NoteEditViewModel.class);
 
         this.activity = (MainActivity) getActivity();
-        if (activity != null) {
+        if (this.activity != null) {
             EditText noteDescriptionText = activity.findViewById(R.id.note_description);
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -59,11 +64,11 @@ public class EditNoteFragment extends Fragment {
             if (!userName.equals("")) {
                 UserRepository repository = new UserRepository(
                         new DatabaseHelper(activity.getApplicationContext()));
-                User currentUser = repository.getUserByName(userName);
+                this.currentUser = repository.getUserByName(userName);
 
-                if (currentUser != null) {
+                if (this.currentUser != null) {
                     noteDescriptionText.setText(noteEditViewModel.getNoteDescription(noteId,
-                            currentUser.getId()));
+                            this.currentUser.getId()));
 
                     Button confirmButton = this.activity.findViewById(R.id.create_note_button);
                     if (noteId == 0) {
@@ -72,30 +77,47 @@ public class EditNoteFragment extends Fragment {
                         confirmButton.setText(getResources().getText(R.string.edit));
                     }
 
-                    confirmButton.setOnClickListener(v -> {
-                        String noteDescription = ((EditText)getActivity().findViewById(
-                                R.id.note_description))
-                                .getText()
-                                .toString();
-                        if (noteDescription.trim().equals("")) {
-                            Toast.makeText(getContext(), getString(R.string.note_create_error),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            if (this.noteId == 0) {
-                                noteEditViewModel.createNote(noteDescription, currentUser.getId());
-                            } else {
-                                noteEditViewModel.editNote(this.noteId, noteDescription);
-                            }
-                            this.activity.navigateToRoot(getString(R.string.notes),
-                                    NotesFragment.newInstance());
-                        }
-                    });
+                    confirmButton.setOnClickListener(v -> createNoteClicked());
                     this.activity.findViewById(R.id.cancel_note_create_button)
-                            .setOnClickListener(v ->
-                                    this.activity.navigateToRoot(getResources().getString(R.string.notes),
-                                    NotesFragment.newInstance()));
+                            .setOnClickListener(v -> goBack());
                 }
             }
+
+            Button takePhotoButton = this.activity.findViewById(R.id.takePhotoButton);
+            takePhotoButton.setOnClickListener(v -> {
+                takePhoto();
+            });
+        }
+    }
+
+    private void createNoteClicked() {
+        String noteDescription = ((EditText)getActivity().findViewById(
+                R.id.note_description))
+                .getText()
+                .toString();
+        if (noteDescription.trim().equals("")) {
+            Toast.makeText(getContext(), getString(R.string.note_create_error),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            if (this.noteId == 0) {
+                noteEditViewModel.createNote(noteDescription, this.currentUser.getId());
+            } else {
+                noteEditViewModel.editNote(this.noteId, noteDescription);
+            }
+            this.activity.navigateToRoot(getString(R.string.notes),
+                    NotesFragment.newInstance());
+        }
+    }
+
+    private void goBack() {
+        this.activity.navigateToRoot(getResources().getString(R.string.notes),
+                NotesFragment.newInstance());
+    }
+
+    private void takePhoto() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(this.activity.getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 }
