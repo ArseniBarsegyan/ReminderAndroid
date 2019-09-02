@@ -26,7 +26,7 @@ import com.arsbars.reminderandroid.viewmodels.NoteEditViewModel;
 import com.arsbars.reminderandroid.viewmodels.factory.CreateNoteViewModelFactory;
 
 public class EditNoteFragment extends Fragment {
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 18595;
 
     private long noteId;
     private NoteEditViewModel noteEditViewModel;
@@ -117,7 +117,7 @@ public class EditNoteFragment extends Fragment {
     private void takePhoto() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(this.activity.getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            this.activity.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 }

@@ -13,6 +13,11 @@
         android:layout_height="wrap_content"
         android:text="take photo" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/note_description"
         android:layout_height="0dp"
