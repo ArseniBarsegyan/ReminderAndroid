@@ -36,6 +36,10 @@ public class NoteEditViewModel extends ViewModel {
         this.galleryItemsRepository = galleryItemsRepository;
     }
 
+    public List<GalleryItemViewModel> getGalleryItems(long noteId) {
+        return this.galleryItemsRepository.getGalleryItems(noteId);
+    }
+
     public Note createNote(String description, long userId,
                            List<GalleryItemViewModel> galleryItemViewModels) {
         Note note = noteRepository.createNote(description, userId);

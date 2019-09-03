@@ -97,6 +97,7 @@ public class EditNoteFragment extends Fragment {
                         confirmButton.setText(getResources().getText(R.string.create));
                     } else {
                         confirmButton.setText(getResources().getText(R.string.edit));
+                        this.galleryItemViewModels = noteEditViewModel.getGalleryItems(this.noteId);
                     }
 
                     confirmButton.setOnClickListener(v -> createNoteClicked());
