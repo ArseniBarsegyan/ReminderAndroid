@@ -1,7 +1,6 @@
 package com.arsbars.reminderandroid;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -16,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.arsbars.reminderandroid.view.fragments.NotesFragment;
@@ -25,7 +23,6 @@ import com.arsbars.reminderandroid.services.FragmentNavigationService;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentNavigationService {
-    static final int REQUEST_IMAGE_CAPTURE = 18595;
 
     private DrawerLayout drawer;
     private Toolbar toolbar;
@@ -91,7 +88,8 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.setCustomAnimations(R.anim.slide_from_right,
                     R.anim.slide_to_right);
-            fragmentTransaction.replace(R.id.root_layout, fragment);
+            fragmentTransaction.replace(R.id.root_layout, fragment, fragment.getClass()
+                    .toString());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
@@ -137,17 +135,5 @@ public class MainActivity extends AppCompatActivity
         drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                ImageView imageView = findViewById(R.id.imageView);
-                imageView.setImageBitmap(imageBitmap);
-            }
-        }
     }
 }

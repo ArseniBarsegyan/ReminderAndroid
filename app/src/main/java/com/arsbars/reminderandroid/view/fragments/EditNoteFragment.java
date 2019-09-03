@@ -1,9 +1,12 @@
 package com.arsbars.reminderandroid.view.fragments;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,16 +17,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
 import com.arsbars.reminderandroid.data.base.DatabaseHelper;
+import com.arsbars.reminderandroid.data.galleryItem.GalleryItemsRepository;
 import com.arsbars.reminderandroid.data.note.NoteRepository;
 import com.arsbars.reminderandroid.data.user.User;
 import com.arsbars.reminderandroid.data.user.UserRepository;
+import com.arsbars.reminderandroid.view.adapters.NotePhotosArrayAdapter;
+import com.arsbars.reminderandroid.viewmodels.GalleryItemViewModel;
 import com.arsbars.reminderandroid.viewmodels.NoteEditViewModel;
 import com.arsbars.reminderandroid.viewmodels.factory.CreateNoteViewModelFactory;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class EditNoteFragment extends Fragment {
     static final int REQUEST_IMAGE_CAPTURE = 18595;
@@ -32,6 +47,12 @@ public class EditNoteFragment extends Fragment {
     private NoteEditViewModel noteEditViewModel;
     private MainActivity activity;
     private User currentUser;
+
+    private List<GalleryItemViewModel> galleryItemViewModels = new ArrayList<>();
+
+    public List<GalleryItemViewModel> getGalleryItemViewModels() {
+        return this.galleryItemViewModels;
+    }
 
     public static EditNoteFragment newInstance(long noteId) {
         EditNoteFragment fragment = new EditNoteFragment();
@@ -50,7 +71,8 @@ public class EditNoteFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         noteEditViewModel = ViewModelProviders
                 .of(this, new CreateNoteViewModelFactory(new NoteRepository(
-                        new DatabaseHelper(getContext()))))
+                        new DatabaseHelper(getContext())),
+                        new GalleryItemsRepository(new DatabaseHelper(getContext()))))
                 .get(NoteEditViewModel.class);
 
         this.activity = (MainActivity) getActivity();
@@ -88,6 +110,17 @@ public class EditNoteFragment extends Fragment {
                 takePhoto();
             });
         }
+        setPhotoArrayAdapter();
+    }
+
+    private void setPhotoArrayAdapter() {
+        GridView photosGridView = this.activity.findViewById(R.id.photosLayout);
+
+        if (photosGridView != null) {
+            NotePhotosArrayAdapter photosAdapter = new NotePhotosArrayAdapter(this.activity,
+                    R.layout.photo_item, getGalleryItemViewModels());
+            photosGridView.setAdapter(photosAdapter);
+        }
     }
 
     private void createNoteClicked() {
@@ -100,7 +133,8 @@ public class EditNoteFragment extends Fragment {
                     Toast.LENGTH_SHORT).show();
         } else {
             if (this.noteId == 0) {
-                noteEditViewModel.createNote(noteDescription, this.currentUser.getId());
+                noteEditViewModel.createNote(noteDescription, this.currentUser.getId(),
+                        getGalleryItemViewModels());
             } else {
                 noteEditViewModel.editNote(this.noteId, noteDescription);
             }
@@ -117,7 +151,41 @@ public class EditNoteFragment extends Fragment {
     private void takePhoto() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(this.activity.getPackageManager()) != null) {
-            this.activity.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap imageBitmap = (Bitmap)extras.get("data");
+
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                        .format(new Date());
+                String imageFileName = "JPEG_" + timeStamp + "_";
+                File storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+                try {
+                    File image = File.createTempFile(
+                            imageFileName,
+                            ".jpg",
+                            storageDir
+                    );
+                    FileOutputStream stream = new FileOutputStream(image);
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+                    GalleryItemViewModel viewModel = new GalleryItemViewModel();
+                    viewModel.setImagePath(image.getAbsolutePath());
+                    viewModel.setThumbnail(image.getAbsolutePath());
+
+                    galleryItemViewModels.add(viewModel);
+                    setPhotoArrayAdapter();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

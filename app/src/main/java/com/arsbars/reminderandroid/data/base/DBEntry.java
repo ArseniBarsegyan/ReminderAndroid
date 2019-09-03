@@ -14,4 +14,12 @@ public class DBEntry implements BaseColumns {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String IMAGE_CONTENT = "image_content";
+
+    public static final String GALLERY_ITEMS_TABLE = "gallery_items";
+    public static final String IMAGE_PATH = "image_path";
+    public static final String THUMBNAIL = "thumbnail";
+    public static final String IS_VIDEO = "is_video";
+    public static final String VIDEO_PATH = "video_path";
+    public static final String LANDSCAPE = "landscape";
+    public static final String COLUMN_NOTE_ID = "note_id";
 }
