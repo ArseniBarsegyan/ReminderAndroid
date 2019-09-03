@@ -1,35 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.fragments.EditNoteFragment"
     android:orientation="vertical"
-    android:background="@color/page_background">
-
-    <Button
-        android:id="@+id/takePhotoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="take photo" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+    android:background="@color/page_background"
+    android:gravity="top">
     <EditText
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/note_description"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="200dp"
         android:layout_width="match_parent"
         android:hint="@string/note_description_placeholder" />
 
+    <GridView
+        android:id="@+id/photosLayout"
+        app:layout_constraintTop_toBottomOf="@+id/note_description"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:numColumns="3">
+
+    </GridView>
+
     <LinearLayout
+        android:id="@+id/optionButtonsLayout"
+        app:layout_constraintBottom_toTopOf="@id/pageControlsButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/takePhotoButton"
+            android:text="take photo"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pageControlsButtonsLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
-
         android:orientation="horizontal">
         <Button
             style="@style/Base.Widget.AppCompat.ButtonBar"
@@ -50,4 +63,4 @@
             android:background="@color/button_background"
             android:text="@string/cancel"/>
     </LinearLayout>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
