@@ -1,6 +1,6 @@
 package com.arsbars.reminderandroid.viewmodels;
 
-import com.arsbars.reminderandroid.data.note.GalleryItemModel;
+import com.arsbars.reminderandroid.data.galleryItem.GalleryItemModel;
 
 public class GalleryItemViewModel {
     private long id;

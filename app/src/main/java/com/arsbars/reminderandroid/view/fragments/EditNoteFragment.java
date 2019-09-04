@@ -76,19 +76,19 @@ public class EditNoteFragment extends Fragment {
                 .get(NoteEditViewModel.class);
 
         this.activity = (MainActivity) getActivity();
-        if (this.activity != null) {
-            EditText noteDescriptionText = activity.findViewById(R.id.note_description);
 
+        if (this.activity != null) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
             String userName = prefs.getString(getResources().getString(R.string.user_name_preference),
                     "");
 
-            if (!userName.equals("")) {
+            if (userName != null) {
                 UserRepository repository = new UserRepository(
                         new DatabaseHelper(activity.getApplicationContext()));
                 this.currentUser = repository.getUserByName(userName);
 
                 if (this.currentUser != null) {
+                    EditText noteDescriptionText = activity.findViewById(R.id.note_description);
                     noteDescriptionText.setText(noteEditViewModel.getNoteDescription(noteId,
                             this.currentUser.getId()));
 
@@ -107,9 +107,7 @@ public class EditNoteFragment extends Fragment {
             }
 
             Button takePhotoButton = this.activity.findViewById(R.id.takePhotoButton);
-            takePhotoButton.setOnClickListener(v -> {
-                takePhoto();
-            });
+            takePhotoButton.setOnClickListener(v -> takePhoto());
         }
         setPhotoArrayAdapter();
     }
@@ -137,7 +135,8 @@ public class EditNoteFragment extends Fragment {
                 noteEditViewModel.createNote(noteDescription, this.currentUser.getId(),
                         getGalleryItemViewModels());
             } else {
-                noteEditViewModel.editNote(this.noteId, noteDescription);
+                noteEditViewModel.editNote(this.noteId, noteDescription,
+                        getGalleryItemViewModels());
             }
             this.activity.navigateToRoot(getString(R.string.notes),
                     NotesFragment.newInstance());
@@ -166,13 +165,13 @@ public class EditNoteFragment extends Fragment {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
                         .format(new Date());
                 String imageFileName = "JPEG_" + timeStamp + "_";
-                File storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                File storageDirectory = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
                 try {
                     File image = File.createTempFile(
                             imageFileName,
                             ".jpg",
-                            storageDir
+                            storageDirectory
                     );
                     FileOutputStream stream = new FileOutputStream(image);
                     imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);

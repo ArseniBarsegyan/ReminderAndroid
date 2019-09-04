@@ -11,7 +11,7 @@
     <EditText
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/note_description"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:layout_width="match_parent"
         android:hint="@string/note_description_placeholder" />
 

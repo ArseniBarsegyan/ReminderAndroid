@@ -1,20 +1,11 @@
 package com.arsbars.reminderandroid.viewmodels;
 
 import android.arch.lifecycle.ViewModel;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.widget.ImageView;
 
 import com.arsbars.reminderandroid.data.galleryItem.GalleryItemsRepository;
-import com.arsbars.reminderandroid.data.note.GalleryItemModel;
 import com.arsbars.reminderandroid.data.note.Note;
 import com.arsbars.reminderandroid.data.note.NoteRepository;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class NoteEditViewModel extends ViewModel {
@@ -51,7 +42,16 @@ public class NoteEditViewModel extends ViewModel {
         return note;
     }
 
-    public void editNote(long id, String description) {
+    public void editNote(long id, String description,
+                         List<GalleryItemViewModel> galleryItemViewModels) {
         noteRepository.editNote(id, description);
+        for (GalleryItemViewModel viewModel : galleryItemViewModels) {
+            viewModel.setNoteId(id);
+            if (viewModel.getId() == 0) {
+                galleryItemsRepository.createGalleryItem(viewModel);
+            } else {
+                galleryItemsRepository.editGalleryItem(viewModel);
+            }
+        }
     }
 }

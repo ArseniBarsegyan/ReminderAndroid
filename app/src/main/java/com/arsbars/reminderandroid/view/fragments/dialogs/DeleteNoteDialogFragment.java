@@ -32,7 +32,8 @@ public class DeleteNoteDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.delete, (dialog, id) -> {
                     notesViewModel.removeNote(viewModelId);
                     if (activity != null) {
-                        activity.navigateToRoot(getResources().getString(R.string.notes), NotesFragment.newInstance());
+                        activity.navigateToRoot(getResources().getString(R.string.notes),
+                                NotesFragment.newInstance());
                     }
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> {

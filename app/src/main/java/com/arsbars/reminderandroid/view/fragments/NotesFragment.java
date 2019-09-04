@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
 import com.arsbars.reminderandroid.data.base.DatabaseHelper;
+import com.arsbars.reminderandroid.data.galleryItem.GalleryItemsRepository;
 import com.arsbars.reminderandroid.data.note.NoteRepository;
 import com.arsbars.reminderandroid.data.user.User;
 import com.arsbars.reminderandroid.data.user.UserRepository;
@@ -41,8 +42,8 @@ public class NotesFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         NotesViewModel notesViewModel = ViewModelProviders
                 .of(this, new NotesViewModelFactory(
-                        new NoteRepository(
-                                new DatabaseHelper(getContext()))))
+                        new NoteRepository(new DatabaseHelper(getContext())),
+                        new GalleryItemsRepository(new DatabaseHelper(getContext()))))
                 .get(NotesViewModel.class);
 
         activity = (MainActivity)getActivity();
@@ -52,7 +53,7 @@ public class NotesFragment extends Fragment {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         String currentUsername = prefs.getString(getResources().getString(R.string.user_name_preference),
                 "");
-        if (!currentUsername.equals("")) {
+        if (currentUsername != null) {
             UserRepository repository = new UserRepository(
                     new DatabaseHelper(activity.getApplicationContext()));
             User currentUser = repository.getUserByName(currentUsername);

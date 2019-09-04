@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.arsbars.reminderandroid.data.base.DBEntry;
 import com.arsbars.reminderandroid.data.base.DatabaseHelper;
-import com.arsbars.reminderandroid.data.note.GalleryItemModel;
 import com.arsbars.reminderandroid.viewmodels.GalleryItemViewModel;
 
 import java.util.ArrayList;
@@ -115,6 +114,16 @@ public class GalleryItemsRepository {
                 noteId);
     }
 
+    public void removeGalleryItemsByNoteId(long noteId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(
+                DBEntry.GALLERY_ITEMS_TABLE,
+                DBEntry.COLUMN_NOTE_ID + " = ?",
+                new String[]{Long.toString(noteId)}
+        );
+        db.close();
+    }
+
     public void removeGalleryItem(long id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.delete(
@@ -134,6 +143,16 @@ public class GalleryItemsRepository {
         if (index != -1) {
             galleryItems.remove(index);
         }
+    }
+
+    public void editGalleryItem(GalleryItemViewModel viewModel) {
+        editGalleryItem(viewModel.getId(),
+                viewModel.getImagePath(),
+                viewModel.getThumbnail(),
+                viewModel.isVideo(),
+                viewModel.getVideoPath(),
+                viewModel.isLandscape(),
+                viewModel.getNoteId());
     }
 
     public void editGalleryItem(long galleryItemId,

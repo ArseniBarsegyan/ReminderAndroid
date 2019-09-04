@@ -1,4 +1,4 @@
-package com.arsbars.reminderandroid.data.note
+package com.arsbars.reminderandroid.data.galleryItem
 
 internal class GalleryItemModel {
     var id: Long = 0
