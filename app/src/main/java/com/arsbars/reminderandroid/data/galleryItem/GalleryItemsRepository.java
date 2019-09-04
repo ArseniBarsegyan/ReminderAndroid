@@ -4,9 +4,10 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.arsbars.reminderandroid.business.dto.GalleryItemDto;
+import com.arsbars.reminderandroid.business.mapper.Mapper;
 import com.arsbars.reminderandroid.data.base.DBEntry;
 import com.arsbars.reminderandroid.data.base.DatabaseHelper;
-import com.arsbars.reminderandroid.viewmodels.GalleryItemViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,14 +21,14 @@ public class GalleryItemsRepository {
         this.dbHelper = dbHelper;
     }
 
-    public List<GalleryItemViewModel> getGalleryItems(long noteId) {
+    public List<GalleryItemDto> getGalleryItems(long noteId) {
         if (galleryItems == null) {
             galleryItems = new ArrayList<>();
             loadGalleryItems(noteId);
         }
-        ArrayList<GalleryItemViewModel> clonedGalleryItems = new ArrayList<>(galleryItems.size());
+        ArrayList<GalleryItemDto> clonedGalleryItems = new ArrayList<>(galleryItems.size());
         for (int i = 0; i < galleryItems.size(); i++) {
-            clonedGalleryItems.add(new GalleryItemViewModel(galleryItems.get(i)));
+            clonedGalleryItems.add(Mapper.ToDto(galleryItems.get(i)));
         }
         return clonedGalleryItems;
     }
@@ -70,16 +71,16 @@ public class GalleryItemsRepository {
         Collections.reverse(galleryItems);
     }
 
-    public GalleryItemModel createGalleryItem(GalleryItemViewModel viewModel) {
-        return createGalleryItem(viewModel.getImagePath(),
-                viewModel.getThumbnail(),
-                viewModel.isVideo(),
-                viewModel.getVideoPath(),
-                viewModel.isLandscape(),
-                viewModel.getNoteId());
+    public GalleryItemModel createGalleryItem(GalleryItemDto dto) {
+        return createGalleryItem(dto.getImagePath(),
+                dto.getThumbnail(),
+                dto.isVideo(),
+                dto.getVideoPath(),
+                dto.isLandscape(),
+                dto.getNoteId());
     }
 
-    public GalleryItemModel createGalleryItem(String imagePath,
+    private GalleryItemModel createGalleryItem(String imagePath,
                                               String thumbnail,
                                               Boolean isVideo,
                                               String videoPath,
@@ -145,17 +146,17 @@ public class GalleryItemsRepository {
         }
     }
 
-    public void editGalleryItem(GalleryItemViewModel viewModel) {
-        editGalleryItem(viewModel.getId(),
-                viewModel.getImagePath(),
-                viewModel.getThumbnail(),
-                viewModel.isVideo(),
-                viewModel.getVideoPath(),
-                viewModel.isLandscape(),
-                viewModel.getNoteId());
+    public void editGalleryItem(GalleryItemDto dto) {
+        editGalleryItem(dto.getId(),
+                dto.getImagePath(),
+                dto.getThumbnail(),
+                dto.isVideo(),
+                dto.getVideoPath(),
+                dto.isLandscape(),
+                dto.getNoteId());
     }
 
-    public void editGalleryItem(long galleryItemId,
+    private void editGalleryItem(long galleryItemId,
                                 String imagePath,
                                 String thumbnail,
                                 Boolean isVideo,

@@ -17,6 +17,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/note_title_photo"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
         <TextView
             android:id="@+id/noteDescription"
             android:layout_width="wrap_content"

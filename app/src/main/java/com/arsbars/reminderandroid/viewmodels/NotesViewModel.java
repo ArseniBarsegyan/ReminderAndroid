@@ -2,6 +2,7 @@ package com.arsbars.reminderandroid.viewmodels;
 
 import android.arch.lifecycle.ViewModel;
 
+import com.arsbars.reminderandroid.business.mapper.Mapper;
 import com.arsbars.reminderandroid.data.galleryItem.GalleryItemsRepository;
 import com.arsbars.reminderandroid.data.note.NoteRepository;
 
@@ -15,6 +16,10 @@ public class NotesViewModel extends ViewModel {
                           GalleryItemsRepository galleryItemsRepository) {
         this.noteRepository = noteRepository;
         this.galleryItemsRepository = galleryItemsRepository;
+    }
+
+    public List<GalleryItemViewModel> getGalleryItems(long noteId) {
+        return Mapper.ToViewModels(this.galleryItemsRepository.getGalleryItems(noteId));
     }
 
     public List<NoteViewModel> getNotes(long userId) {

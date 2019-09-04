@@ -2,6 +2,7 @@ package com.arsbars.reminderandroid.viewmodels;
 
 import android.arch.lifecycle.ViewModel;
 
+import com.arsbars.reminderandroid.business.mapper.Mapper;
 import com.arsbars.reminderandroid.data.galleryItem.GalleryItemsRepository;
 import com.arsbars.reminderandroid.data.note.Note;
 import com.arsbars.reminderandroid.data.note.NoteRepository;
@@ -28,7 +29,7 @@ public class NoteEditViewModel extends ViewModel {
     }
 
     public List<GalleryItemViewModel> getGalleryItems(long noteId) {
-        return this.galleryItemsRepository.getGalleryItems(noteId);
+        return Mapper.ToViewModels(this.galleryItemsRepository.getGalleryItems(noteId));
     }
 
     public Note createNote(String description, long userId,
@@ -37,7 +38,7 @@ public class NoteEditViewModel extends ViewModel {
 
         for (GalleryItemViewModel viewModel : galleryItemViewModels) {
             viewModel.setNoteId(note.getId());
-            galleryItemsRepository.createGalleryItem(viewModel);
+            galleryItemsRepository.createGalleryItem(Mapper.ToDto(viewModel));
         }
         return note;
     }
@@ -48,9 +49,9 @@ public class NoteEditViewModel extends ViewModel {
         for (GalleryItemViewModel viewModel : galleryItemViewModels) {
             viewModel.setNoteId(id);
             if (viewModel.getId() == 0) {
-                galleryItemsRepository.createGalleryItem(viewModel);
+                galleryItemsRepository.createGalleryItem(Mapper.ToDto(viewModel));
             } else {
-                galleryItemsRepository.editGalleryItem(viewModel);
+                galleryItemsRepository.editGalleryItem(Mapper.ToDto(viewModel));
             }
         }
     }

@@ -1,6 +1,6 @@
 package com.arsbars.reminderandroid.viewmodels;
 
-import com.arsbars.reminderandroid.data.galleryItem.GalleryItemModel;
+import com.arsbars.reminderandroid.business.dto.GalleryItemDto;
 
 public class GalleryItemViewModel {
     private long id;
@@ -30,14 +30,14 @@ public class GalleryItemViewModel {
         this.noteId = noteId;
     }
 
-    public GalleryItemViewModel(GalleryItemModel galleryItemModel) {
-        this.id = galleryItemModel.getId();
-        this.imagePath = galleryItemModel.getImagePath();
-        this.thumbnail = galleryItemModel.getThumbnail();
-        this.isVideo = galleryItemModel.isVideo() == 1;
-        this.videoPath = galleryItemModel.getVideoPath();
-        this.landscape = galleryItemModel.getLandscape() == 1;
-        this.noteId = galleryItemModel.getNoteId();
+    public GalleryItemViewModel(GalleryItemDto dto) {
+        this.id = dto.getId();
+        this.imagePath = dto.getImagePath();
+        this.thumbnail = dto.getThumbnail();
+        this.isVideo = dto.isVideo();
+        this.videoPath = dto.getVideoPath();
+        this.landscape = dto.isLandscape();
+        this.noteId = dto.getNoteId();
     }
 
     public long getId() {

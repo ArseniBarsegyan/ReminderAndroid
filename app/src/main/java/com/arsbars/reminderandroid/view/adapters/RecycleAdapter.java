@@ -1,6 +1,8 @@
 package com.arsbars.reminderandroid.view.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,32 +15,40 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arsbars.reminderandroid.MainActivity;
 import com.arsbars.reminderandroid.R;
+import com.arsbars.reminderandroid.business.dto.GalleryItemDto;
 import com.arsbars.reminderandroid.view.fragments.EditNoteFragment;
 import com.arsbars.reminderandroid.view.fragments.dialogs.DeleteNoteDialogFragment;
+import com.arsbars.reminderandroid.viewmodels.GalleryItemViewModel;
 import com.arsbars.reminderandroid.viewmodels.NoteViewModel;
 import com.arsbars.reminderandroid.viewmodels.NotesViewModel;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
     private LayoutInflater inflater;
     private List<NoteViewModel> noteViewModels;
+    private List<GalleryItemViewModel> galleryItemViewModels;
     private NotesViewModel notesViewModel;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View view;
+        private ImageView noteTitleImage;
         private TextView descriptionView, noteEditDateView;
         private ImageButton deleteNoteButton;
 
         ViewHolder(View view){
             super(view);
+            noteTitleImage = view.findViewById(R.id.note_title_photo);
             descriptionView = view.findViewById(R.id.noteDescription);
             noteEditDateView = view.findViewById(R.id.noteEditDate);
             deleteNoteButton = view.findViewById(R.id.delete_note_button);
@@ -49,8 +59,14 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
 
     public RecycleAdapter(Context context, NotesViewModel viewModel, long userId) {
         this.noteViewModels = viewModel.getNotes(userId);
+        this.galleryItemViewModels = new ArrayList<>();
         this.inflater = LayoutInflater.from(context);
         this.notesViewModel = viewModel;
+
+        for (NoteViewModel noteViewModel : this.noteViewModels) {
+            this.galleryItemViewModels.addAll(this.notesViewModel
+                    .getGalleryItems(noteViewModel.getId()));
+        }
     }
 
     @NonNull
@@ -63,6 +79,22 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecycleAdapter.ViewHolder holder, int position) {
         NoteViewModel noteViewModel = noteViewModels.get(position);
+
+        GalleryItemViewModel firstGalleryItemViewModel = null;
+        for (GalleryItemViewModel viewModel : this.galleryItemViewModels) {
+            if (viewModel.getNoteId() == noteViewModel.getId()) {
+                firstGalleryItemViewModel = viewModel;
+            }
+        }
+
+        if (firstGalleryItemViewModel != null) {
+            File imgFile = new File(firstGalleryItemViewModel.getThumbnail());
+            if (imgFile.exists()) {
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                holder.noteTitleImage.setImageBitmap(myBitmap);
+            }
+        }
+
         holder.descriptionView.setText(noteViewModel.getDescription());
 
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.US);

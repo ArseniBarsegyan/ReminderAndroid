@@ -5,12 +5,14 @@ import android.arch.lifecycle.ViewModel;
 import com.arsbars.reminderandroid.data.note.Note;
 
 import java.util.Date;
+import java.util.List;
 
 public class NoteViewModel extends ViewModel {
     private long id;
     private String description;
     private Date createDate;
     private Date editDate;
+    private List<GalleryItemViewModel> galleryItemViewModelList;
 
     public long getId() {
         return id;
@@ -56,5 +58,13 @@ public class NoteViewModel extends ViewModel {
 
     public void setEditDate(Date editDate) {
         this.editDate = editDate;
+    }
+
+    public List<GalleryItemViewModel> getGalleryItemViewModelList() {
+        return galleryItemViewModelList;
+    }
+
+    public void setGalleryItemViewModelList(List<GalleryItemViewModel> galleryItemViewModelList) {
+        this.galleryItemViewModelList = galleryItemViewModelList;
     }
 }
